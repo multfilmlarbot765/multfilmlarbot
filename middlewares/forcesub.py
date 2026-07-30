@@ -39,9 +39,10 @@ class ForceSubMiddleware(BaseMiddleware):
             member = await bot.get_chat_member(chat_id=channel_id_or_username, user_id=user.id)
             if member.status in ['member', 'administrator', 'creator']:
                 return await handler(event, data)
-        except TelegramBadRequest:
-            # Maybe the bot is not admin in the channel, or channel doesn't exist
-            pass
+        except Exception as e:
+            print(f"Force sub error: {e}")
+            # If we can't check (bot not admin, channel deleted, etc), bypass to avoid locking users out.
+            return await handler(event, data)
             
         # Determine channel link to show user
         channel_link = channel_id_or_username
@@ -49,7 +50,15 @@ class ForceSubMiddleware(BaseMiddleware):
             if channel_link.startswith('@'):
                 channel_link = f"https://t.me/{channel_link[1:]}"
             else:
-                pass
+                try:
+                    chat = await bot.get_chat(channel_id_or_username)
+                    if chat.invite_link:
+                        channel_link = chat.invite_link
+                    else:
+                        channel_link = await bot.export_chat_invite_link(channel_id_or_username)
+                except Exception as e:
+                    print(f"Cannot get invite link: {e}")
+                    return await handler(event, data)
                 
         text = "Botdan foydalanish uchun quyidagi kanalga obuna bo'lishingiz kerak."
         kb = get_force_sub_keyboard(channel_link)
