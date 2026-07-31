@@ -39,3 +39,6 @@ class MediaEdit(StatesGroup):
     edit_year = State()
     edit_quality = State()
     edit_genre = State()
+
+class SetMainChannelLink(StatesGroup):
+    link = State()

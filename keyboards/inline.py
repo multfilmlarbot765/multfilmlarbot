@@ -1,8 +1,8 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import urllib.parse
 
-def get_start_menu(is_admin: bool, channel_link: str):
-    link = channel_link if channel_link else "https://t.me/telegram"
+def get_start_menu(channel_link: str):
+    link = channel_link if channel_link else "https://t.me/multifilmlarobot"
     inline_keyboard = [
         [
             InlineKeyboardButton(text="🎲 Tasodifiy", callback_data="start_random"),
@@ -13,8 +13,6 @@ def get_start_menu(is_admin: bool, channel_link: str):
             InlineKeyboardButton(text="🎬 Multfilmlar", url=link)
         ]
     ]
-    if is_admin:
-        inline_keyboard.append([InlineKeyboardButton(text="⚙️ Admin Paneli", callback_data="admin_panel_open")])
     return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
 def get_content_inline_keyboard(content_code: int, bot_username: str):
@@ -145,7 +143,7 @@ def get_feedback_item_keyboard(f_type: str, item_id: int, current_index: int, to
     return InlineKeyboardMarkup(
         inline_keyboard=[
             nav_row,
-            [InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")]
+            [InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")]
         ]
     )
 
@@ -228,7 +226,7 @@ def get_settings_dashboard_keyboard():
                 InlineKeyboardButton(text="🕵️ Baza logi", callback_data="settings_stealth")
             ],
             [
-                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")
             ]
         ]
     )
@@ -241,7 +239,7 @@ def get_forcesub_settings_keyboard():
                 InlineKeyboardButton(text="🗑 O'chirish", callback_data="forcesub_delete")
             ],
             [
-                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")
             ]
         ]
     )
@@ -254,7 +252,7 @@ def get_footer_settings_keyboard():
                 InlineKeyboardButton(text="🗑 O'chirish", callback_data="footer_delete")
             ],
             [
-                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")
             ]
         ]
     )
@@ -267,7 +265,7 @@ def get_admin_settings_keyboard():
                 InlineKeyboardButton(text="➕ Yangi admin", callback_data="admins_add")
             ],
             [
-                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")
             ]
         ]
     )
@@ -286,7 +284,7 @@ def get_stealth_settings_keyboard():
                 InlineKeyboardButton(text="🔄 Holatni o'zgartirish", callback_data="stealth_toggle")
             ],
             [
-                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")
             ]
         ]
     )
@@ -317,5 +315,13 @@ def get_admin_panel_keyboard():
             [
                 InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
             ]
+        ]
+    )
+
+def get_channel_link_settings_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="✏️ Havolani o'zgartirish", callback_data="settings_link_edit")],
+            [InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")]
         ]
     )

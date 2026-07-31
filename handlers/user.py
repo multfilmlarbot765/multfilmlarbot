@@ -85,13 +85,13 @@ async def cmd_start(message: Message, bot: Bot, state: FSMContext):
         await msg.delete()
         
         admin_status = await is_admin(user.id)
-        channel_link = await get_setting('movies_channel_link')
+        channel_link = await get_setting('main_channel_url')
         
         greeting = f"👋 Assalomu alaykum {user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
         
         await message.answer(
             greeting,
-            reply_markup=get_start_menu(admin_status, channel_link)
+            reply_markup=get_start_menu(channel_link)
         )
 
 @router.callback_query(F.data == "start_random")
@@ -221,12 +221,12 @@ async def cb_check_sub(callback: CallbackQuery):
     await callback.message.delete()
     
     admin_status = await is_admin(callback.from_user.id)
-    channel_link = await get_setting('movies_channel_link')
+    channel_link = await get_setting('main_channel_url')
     greeting = f"Obuna tasdiqlandi. 👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
     
     await callback.message.answer(
         greeting,
-        reply_markup=get_start_menu(admin_status, channel_link)
+        reply_markup=get_start_menu(channel_link)
     )
     await callback.answer()
 
@@ -246,9 +246,11 @@ async def cb_check_forcesub(callback: CallbackQuery, bot: Bot, state: FSMContext
             await callback.message.delete()
             # Send greeting
             admin_status = await is_admin(callback.from_user.id)
-            channel_link = await get_setting('movies_channel_link')
-            greeting = f"👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
-            await callback.message.answer(greeting, reply_markup=get_start_menu(admin_status, channel_link))
+            channel_link = await get_setting('main_channel_url')
+            greeting = f"👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.
+
+✍🏻 Multfilm kodini yuboring."
+            await callback.message.answer(greeting, reply_markup=get_start_menu(channel_link))
         else:
             # Not subscribed
             await callback.answer("❌ Siz hali kanalga obuna bo'lmadingiz!", show_alert=True)
@@ -256,6 +258,6 @@ async def cb_check_forcesub(callback: CallbackQuery, bot: Bot, state: FSMContext
         print(f"Check forcesub error: {e}")
         await callback.message.delete()
         admin_status = await is_admin(callback.from_user.id)
-        channel_link = await get_setting('movies_channel_link')
+        channel_link = await get_setting('main_channel_url')
         greeting = f"👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
-        await callback.message.answer(greeting, reply_markup=get_start_menu(admin_status, channel_link))
+        await callback.message.answer(greeting, reply_markup=get_start_menu(channel_link))

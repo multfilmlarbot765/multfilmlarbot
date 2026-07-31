@@ -10,12 +10,24 @@ def get_main_menu():
     )
     return keyboard
 
-
-
 def get_cancel_menu():
     keyboard = ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text="❌ Bekor qilish")]
+        ],
+        resize_keyboard=True
+    )
+    return keyboard
+
+def get_admin_menu():
+    keyboard = ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text="➕ Multfilm yuklash"), KeyboardButton(text="➕ Kino yuklash")],
+            [KeyboardButton(text="✏️ Medialarni tahrirlash"), KeyboardButton(text="📢 Broadcast")],
+            [KeyboardButton(text="📋 Baholar va Xabarlar"), KeyboardButton(text="⚙️ Obuna sozlash")],
+            [KeyboardButton(text="📝 Footer sozlash"), KeyboardButton(text="👑 Adminlar boshqaruvi")],
+            [KeyboardButton(text="🗄 Baza Logi"), KeyboardButton(text="🔗 Kanal havolasini sozlash")],
+            [KeyboardButton(text="❌ Yopish")]
         ],
         resize_keyboard=True
     )

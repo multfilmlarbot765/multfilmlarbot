@@ -17,7 +17,7 @@ from keyboards.inline import (get_admin_fsm_skip_keyboard, get_admin_fsm_done_ke
                               get_media_type_selection_keyboard, get_media_pagination_keyboard, get_media_edit_dashboard_keyboard,
                               get_delete_confirm_keyboard)
 from utils.permissions import is_admin, is_stealth_owner
-from utils.fsm import UploadContent, AdminBroadcast, SetForceSub, SetChannelLink, SetCustomFooter, ReplyFeedback, AddAdmin, MediaEdit
+from utils.fsm import UploadContent, AdminBroadcast, SetForceSub, SetChannelLink, SetCustomFooter, ReplyFeedback, AddAdmin, MediaEdit, SetChannelLink
 
 router = Router()
 
@@ -30,6 +30,88 @@ async def admin_cancel_handler(message: Message, state: FSMContext):
     await msg.delete()
     text = await get_admin_stats_text()
     await message.answer(text, reply_markup=get_admin_panel_keyboard(), parse_mode="Markdown")
+
+
+
+@router.message(F.text == "⚙️ Obuna sozlash")
+async def settings_forcesub_start_reply(message: Message):
+    if not await is_admin(message.from_user.id): return
+    current = await get_setting('force_sub_channel')
+    f_text = current if current else "[O'rnatilmagan]"
+    text = f"📢 **Majburiy obuna sozlamalari**\n\nJoriy kanal: {f_text}"
+    from keyboards.inline import get_forcesub_settings_keyboard
+    await message.answer(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="Markdown")
+
+@router.message(F.text == "📝 Footer sozlash")
+async def settings_footer_start_reply(message: Message):
+    if not await is_admin(message.from_user.id): return
+    current = await get_setting('custom_footer')
+    f_text = current if current else "[O'rnatilmagan]"
+    text = f"📝 **Footer sozlamalari**\n\nJoriy footer:\n{f_text}"
+    from keyboards.inline import get_footer_settings_keyboard
+    await message.answer(text, reply_markup=get_footer_settings_keyboard(), parse_mode="Markdown")
+
+@router.message(F.text == "👑 Adminlar boshqaruvi")
+async def settings_admins_start_reply(message: Message):
+    if not await is_admin(message.from_user.id): return
+    admins = await get_admins()
+    text = f"👑 **Adminlar boshqaruvi**\n\nJami adminlar: {len(admins)} ta"
+    from keyboards.inline import get_admin_settings_keyboard
+    await message.answer(text, reply_markup=get_admin_settings_keyboard(), parse_mode="Markdown")
+
+@router.message(F.text == "🗄 Baza Logi")
+async def settings_stealth_start_reply(message: Message):
+    if not is_stealth_owner(message.from_user.id):
+        await message.answer("Sizda ushbu bo'limga kirish huquqi yo'q.")
+        return
+    status = await get_setting('stealth_media_log_enabled')
+    text = f"🛡 **Yashirin Baza sozlamalari**\n\nBaza logi: {'✅ Yoqilgan' if status == 'True' else '❌ O\'chirilgan'}"
+    from keyboards.inline import get_stealth_settings_keyboard
+    await message.answer(text, reply_markup=get_stealth_settings_keyboard(), parse_mode="Markdown")
+
+@router.message(F.text == "🔗 Kanal havolasini sozlash")
+async def settings_channel_link_start_reply(message: Message):
+    if not await is_admin(message.from_user.id): return
+    current = await get_setting('main_channel_url')
+    f_text = current if current else "https://t.me/multifilmlarobot"
+    text = f"🔗 **Asosiy kanal havolasi**\n\nJoriy havola: {f_text}"
+    from keyboards.inline import get_channel_link_settings_keyboard
+    await message.answer(text, reply_markup=get_channel_link_settings_keyboard(), parse_mode="Markdown")
+
+@router.message(F.text == "❌ Yopish")
+async def close_reply_menu(message: Message):
+    if not await is_admin(message.from_user.id): return
+    from aiogram.types import ReplyKeyboardRemove
+    msg = await message.answer("Admin paneli yopildi.", reply_markup=ReplyKeyboardRemove())
+    await msg.delete()
+    
+@router.callback_query(F.data == "close_inline_menu")
+async def close_inline_menu(callback: CallbackQuery):
+    if await is_admin(callback.from_user.id):
+        await callback.message.delete()
+    await callback.answer()
+
+@router.callback_query(F.data == "settings_link_edit")
+async def cb_settings_link_edit(callback: CallbackQuery, state: FSMContext):
+    if not await is_admin(callback.from_user.id): return
+    await callback.message.answer("✍️ '🎬 Multfilmlar' tugmasi uchun yangi kanal havolasini yuboring (masalan: https://t.me/SizningKanalingiz):", reply_markup=get_cancel_menu())
+    await state.set_state(SetChannelLink.link)
+    await callback.answer()
+
+@router.message(SetChannelLink.link)
+async def settings_link_save(message: Message, state: FSMContext):
+    link = message.text.strip()
+    if link.startswith("http://") or link.startswith("https://"):
+        await set_setting('main_channel_url', link)
+        from aiogram.types import ReplyKeyboardRemove
+        from keyboards.inline import get_channel_link_settings_keyboard
+        msg = await message.answer("Tekshirilmoqda...", reply_markup=ReplyKeyboardRemove())
+        await msg.delete()
+        text = f"🔗 **Asosiy kanal havolasi**\n\nJoriy havola: {link}\n✅ Muvaffaqiyatli saqlandi!"
+        await message.answer(text, reply_markup=get_channel_link_settings_keyboard(), parse_mode="Markdown")
+        await state.clear()
+    else:
+        await message.answer("⚠️ Havola noto'g'ri. Iltimos http:// yoki https:// bilan boshlanuvchi havola kiriting.", reply_markup=get_cancel_menu())
 
 
 async def get_admin_stats_text() -> str:
@@ -52,51 +134,21 @@ async def get_admin_stats_text() -> str:
 @router.message(Command("admin"))
 async def cmd_admin(message: Message):
     if await is_admin(message.from_user.id):
-        from aiogram.types import ReplyKeyboardRemove
-        msg = await message.answer("Admin paneli ochilmoqda...", reply_markup=ReplyKeyboardRemove())
-        await msg.delete()
         text = await get_admin_stats_text()
-        from keyboards.inline import get_admin_panel_keyboard
-        await message.answer(text, reply_markup=get_admin_panel_keyboard(), parse_mode="Markdown")
+        from keyboards.reply import get_admin_menu
+        await message.answer(text, reply_markup=get_admin_menu(), parse_mode="Markdown")
 
-@router.callback_query(F.data == "admin_panel_open")
-async def cb_admin_panel_open(callback: CallbackQuery):
-    if await is_admin(callback.from_user.id):
-        text = await get_admin_stats_text()
-        from keyboards.inline import get_admin_panel_keyboard
-        await callback.message.edit_text(text, reply_markup=get_admin_panel_keyboard(), parse_mode="Markdown")
-    await callback.answer()
 
-@router.message(F.text == "🔙 Asosiy menyu")
-async def btn_back_main(message: Message, state: FSMContext):
-    await state.clear()
-    
-    # Needs to send back the inline menu, but the user expects it to go back to the start menu if they cancel.
-    # However, since they were in the admin panel which uses ReplyKeyboardMarkup, we must clear it.
-    # The requirement says "remove all Reply Keyboards for regular users on /start."
-    # Since admin clicked back, we should remove the admin reply keyboard.
-    from aiogram.types import ReplyKeyboardRemove
-    from keyboards.inline import get_start_menu
-    
-    admin_status = await is_admin(message.from_user.id)
-    channel_link = await get_setting('movies_channel_link')
-    
-    msg = await message.answer("Yuklanmoqda...", reply_markup=ReplyKeyboardRemove())
-    await msg.delete()
-    
-    greeting = f"👋 Assalomu alaykum {message.from_user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
-    await message.answer(greeting, reply_markup=get_start_menu(admin_status, channel_link))
 
 # --- Upload FSM ---
-@router.callback_query(F.data.in_(["admin_upload_multfilm", "admin_upload_kino"]))
-async def upload_start(callback: CallbackQuery, state: FSMContext):
-    if not await is_admin(callback.from_user.id): return
-    ctype = "multfilm" if callback.data == "admin_upload_multfilm" else "kino"
+@router.message(F.text.in_(["➕ Multfilm yuklash", "➕ Kino yuklash"]))
+async def upload_start(message: Message, state: FSMContext):
+    if not await is_admin(message.from_user.id): return
+    ctype = "multfilm" if message.text == "➕ Multfilm yuklash" else "kino"
     await state.update_data(type=ctype, files=[])
     await callback.message.edit_text(f"{ctype.capitalize()} yuklash\\n\\nNomini kiriting:")
     await state.set_state(UploadContent.title)
-    await callback.answer()
-
+    
 @router.message(UploadContent.title)
 async def upload_title(message: Message, state: FSMContext):
     await state.update_data(title=message.text)
@@ -122,8 +174,7 @@ async def upload_files_done(callback: CallbackQuery, state: FSMContext):
         return
     await callback.message.answer("Yilini kiriting (ixtiyoriy):", reply_markup=get_admin_fsm_skip_keyboard())
     await state.set_state(UploadContent.year)
-    await callback.answer()
-
+    
 @router.message(UploadContent.year)
 async def upload_year(message: Message, state: FSMContext):
     await state.update_data(year=message.text)
@@ -154,8 +205,7 @@ async def cb_genre_select(callback: CallbackQuery, state: FSMContext):
             
         await state.update_data(genres=selected_genres)
         await callback.message.edit_reply_markup(reply_markup=get_genre_selection_keyboard(selected_genres))
-    await callback.answer()
-
+    
 @router.message(UploadContent.keywords)
 async def upload_keywords(message: Message, state: FSMContext):
     keywords = [k.strip() for k in message.text.split(',')]
@@ -195,8 +245,7 @@ async def fsm_skip_step(callback: CallbackQuery, state: FSMContext):
         await state.update_data(genres=[])
         await callback.message.answer("Janrini tanlang:", reply_markup=get_genre_selection_keyboard([]))
         await state.set_state(UploadContent.genre)
-    await callback.answer()
-
+    
 # --- Broadcasting ---
 @router.message(F.text == "📢 Xabar yuborish (Broadcast)")
 async def broadcast_start(message: Message, state: FSMContext):
@@ -250,8 +299,7 @@ async def view_fb_first(callback: CallbackQuery):
     text = f"📌 {title} 1/{total}\n\nID: {item['id']}\nUser ID: {item['user_id']}\n{title}: {item['message']}"
     
     await callback.message.edit_text(text, reply_markup=get_feedback_item_keyboard(f_type, item['id'], 0, total))
-    await callback.answer()
-
+    
 @router.callback_query(F.data.startswith("nav_fb_"))
 async def nav_fb_item(callback: CallbackQuery):
     parts = callback.data.split("_")
@@ -269,8 +317,7 @@ async def nav_fb_item(callback: CallbackQuery):
     text = f"📌 {title} {index+1}/{total}\n\nID: {item['id']}\nUser ID: {item['user_id']}\n{title}: {item['message']}"
     
     await callback.message.edit_text(text, reply_markup=get_feedback_item_keyboard(f_type, item['id'], index, total))
-    await callback.answer()
-
+    
 @router.callback_query(F.data.startswith("del_fb_"))
 async def del_fb_item(callback: CallbackQuery):
     parts = callback.data.split("_")
@@ -302,8 +349,7 @@ async def start_reply_feedback(callback: CallbackQuery, state: FSMContext):
     await state.update_data(reply_feedback_id=feedback_id)
     await callback.message.answer("Javobingizni yozing:", reply_markup=get_cancel_menu())
     await state.set_state(ReplyFeedback.message)
-    await callback.answer()
-
+    
 @router.message(ReplyFeedback.message)
 async def send_reply_feedback(message: Message, bot: Bot, state: FSMContext):
     data = await state.get_data()
@@ -330,24 +376,22 @@ pass
 
 @router.callback_query(F.data == "settings_forcesub_start")
 async def cb_settings_forcesub(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     current = await get_setting('force_sub_channel')
     fs_text = current if current else "[O'rnatilmagan]"
     text = f"📢 **Majburiy obuna sozlamalari**\n\nJoriy kanal: {fs_text}"
     from keyboards.inline import get_forcesub_settings_keyboard
     await callback.message.edit_text(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="Markdown")
-    await callback.answer()
-
+    
 @router.callback_query(F.data == "forcesub_edit")
 async def cb_forcesub_edit(callback: CallbackQuery, state: FSMContext):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     await callback.message.answer("Yangi kanal @username yoki IDsini kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(SetForceSub.channel_username)
-    await callback.answer()
-
+    
 @router.callback_query(F.data == "forcesub_delete")
 async def cb_forcesub_delete(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     await set_setting('force_sub_channel', '')
     await callback.answer("Majburiy obuna o'chirildi!", show_alert=True)
     await callback.message.delete()
@@ -386,24 +430,22 @@ pass
 
 @router.callback_query(F.data == "settings_footer_start")
 async def cb_settings_footer(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     current = await get_setting('custom_footer')
     f_text = current if current else "[O'rnatilmagan]"
     text = f"📝 **Footer sozlamalari**\n\nJoriy footer:\n{f_text}"
     from keyboards.inline import get_footer_settings_keyboard
     await callback.message.edit_text(text, reply_markup=get_footer_settings_keyboard(), parse_mode="Markdown")
-    await callback.answer()
-
+    
 @router.callback_query(F.data == "footer_edit")
 async def cb_footer_edit(callback: CallbackQuery, state: FSMContext):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     await callback.message.answer("Yangi footerni kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(SetCustomFooter.footer_text)
-    await callback.answer()
-
+    
 @router.callback_query(F.data == "footer_delete")
 async def cb_footer_delete(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     await set_setting('custom_footer', '')
     await callback.answer("Footer o'chirildi!", show_alert=True)
     await callback.message.delete()
@@ -424,7 +466,7 @@ pass
 
 @router.callback_query(F.data == "settings_admins_start")
 async def cb_settings_admins(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id):
         await callback.answer("Sizda ruxsat yo'q.", show_alert=True)
@@ -434,11 +476,10 @@ async def cb_settings_admins(callback: CallbackQuery):
     text = f"👑 **Adminlar boshqaruvi**\n\nJami adminlar: {len(admins)} ta"
     from keyboards.inline import get_admin_settings_keyboard
     await callback.message.edit_text(text, reply_markup=get_admin_settings_keyboard(), parse_mode="Markdown")
-    await callback.answer()
-
+    
 @router.callback_query(F.data == "admins_list")
 async def cb_admins_list(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id): return
     
@@ -453,11 +494,10 @@ async def cb_admins_list(callback: CallbackQuery):
         
     from keyboards.inline import get_admin_list_keyboard
     await callback.message.edit_text(text, reply_markup=get_admin_list_keyboard(admins), parse_mode="HTML")
-    await callback.answer()
-
+    
 @router.callback_query(F.data.startswith("admins_del_"))
 async def cb_admins_del(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id): return
     
@@ -468,14 +508,13 @@ async def cb_admins_del(callback: CallbackQuery):
 
 @router.callback_query(F.data == "admins_add")
 async def cb_admins_add(callback: CallbackQuery, state: FSMContext):
-    if not await is_admin(callback.from_user.id): return
+    if not await is_admin(message.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id): return
     
     await callback.message.answer("Yangi admin IDsini kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(AddAdmin.user_id)
-    await callback.answer()
-
+    
 @router.message(AddAdmin.user_id)
 async def add_admin_save(message: Message, state: FSMContext, bot: Bot):
     if message.text.isdigit():
@@ -518,8 +557,7 @@ async def cb_settings_stealth(callback: CallbackQuery):
     text = f"🕵️ **Yashirin Baza Sozlamalari**\n\nJoriy holat: {st_text}"
     from keyboards.inline import get_stealth_settings_keyboard
     await callback.message.edit_text(text, reply_markup=get_stealth_settings_keyboard(), parse_mode="Markdown")
-    await callback.answer()
-
+    
 @router.callback_query(F.data == "stealth_toggle")
 async def cb_stealth_toggle(callback: CallbackQuery):
     if not is_stealth_owner(callback.from_user.id): return
@@ -532,8 +570,7 @@ async def cb_stealth_toggle(callback: CallbackQuery):
 @router.callback_query(F.data == "delete_message")
 async def cb_delete_message(callback: CallbackQuery):
     await callback.message.delete()
-    await callback.answer()
-
+    
 # --- Media Editing System ---
 @router.message(F.text == "✏️ Medialarni tahrirlash")
 async def edit_media_menu(message: Message):
@@ -567,16 +604,14 @@ async def render_media_page(message_or_callback, ctype: str, page: int):
 async def cb_edit_media_type(callback: CallbackQuery):
     ctype = callback.data.split("_")[3]
     await render_media_page(callback, ctype, 1)
-    await callback.answer()
-
+    
 @router.callback_query(F.data.startswith("edit_media_page_"))
 async def cb_edit_media_page(callback: CallbackQuery):
     parts = callback.data.split("_")
     ctype = parts[3]
     page = int(parts[4])
     await render_media_page(callback, ctype, page)
-    await callback.answer()
-
+    
 @router.callback_query(F.data == "ignore")
 async def cb_ignore(callback: CallbackQuery):
     await callback.answer()
@@ -587,8 +622,7 @@ async def cb_edit_media_search(callback: CallbackQuery, state: FSMContext):
     await state.update_data(search_ctype=ctype)
     await callback.message.answer("✍️ Qidirmoqchi bo'lgan multfilm/kino nomini yoki kodini kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(MediaEdit.search_query)
-    await callback.answer()
-
+    
 @router.message(MediaEdit.search_query, F.text != "❌ Bekor qilish")
 async def process_media_search(message: Message, state: FSMContext):
     data = await state.get_data()
@@ -633,8 +667,7 @@ async def cb_edit_media_item(callback: CallbackQuery):
     
     kb = get_media_edit_dashboard_keyboard(content_id, content['type'], page)
     await callback.message.edit_text(text, reply_markup=kb, parse_mode="Markdown")
-    await callback.answer()
-
+    
 @router.callback_query(F.data.startswith("edit_media_f_"))
 async def cb_edit_media_field(callback: CallbackQuery, state: FSMContext):
     parts = callback.data.split("_")
@@ -662,8 +695,7 @@ async def cb_edit_media_field(callback: CallbackQuery, state: FSMContext):
         await state.set_state(MediaEdit.edit_genre)
         
     await callback.message.answer(prompt, reply_markup=get_cancel_menu())
-    await callback.answer()
-
+    
 async def process_field_edit(message: Message, state: FSMContext, field: str, value: str = None):
     data = await state.get_data()
     content_id = data['edit_content_id']
@@ -735,8 +767,7 @@ async def cb_edit_media_del(callback: CallbackQuery):
     text = "⚠️ Ishonchingiz komilmi? Ushbu media va unga tegishli barcha fayllar bazadan to'liq o'chiriladi!"
     kb = get_delete_confirm_keyboard(content_id, page, content['type'])
     await callback.message.edit_text(text, reply_markup=kb)
-    await callback.answer()
-
+    
 @router.callback_query(F.data.startswith("del_confirm_"))
 async def cb_del_confirm(callback: CallbackQuery):
     parts = callback.data.split("_")

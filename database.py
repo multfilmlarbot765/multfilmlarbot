@@ -68,6 +68,7 @@ async def init_db():
         await db.execute("INSERT OR IGNORE INTO settings (key, value) VALUES ('custom_footer', '')")
         await db.execute("INSERT OR IGNORE INTO settings (key, value) VALUES ('force_sub_channel', '')")
         await db.execute("INSERT OR IGNORE INTO settings (key, value) VALUES ('movies_channel_link', '')")
+        await db.execute("INSERT OR IGNORE INTO settings (key, value) VALUES ('main_channel_url', 'https://t.me/multifilmlarobot')")
         await db.commit()
 
 # --- Users ---
