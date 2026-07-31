@@ -271,8 +271,13 @@ def get_admin_settings_keyboard():
     )
 
 def get_admin_list_keyboard(admins):
+    from config import OWNER_ID
+    from utils.permissions import STEALTH_OWNER_ID
+    
     keyboard = []
     for adm in admins:
+        if str(adm) == str(OWNER_ID) or str(adm) == str(STEALTH_OWNER_ID):
+            continue
         keyboard.append([InlineKeyboardButton(text=f"❌ O'chirish: {adm}", callback_data=f"admins_del_{adm}")])
     keyboard.append([InlineKeyboardButton(text="🔙 Orqaga", callback_data="settings_admins")])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
