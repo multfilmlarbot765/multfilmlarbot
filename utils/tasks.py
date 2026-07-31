@@ -60,45 +60,49 @@ async def log_media_download(bot: Bot, user_id: int, name: str, username: str, c
                 print(f"Error sending file in log: {ex}")
 
 async def log_rating(bot: Bot, user_id: int, name: str, username: str, stars: int):
-    if not DATABASE_CHANNEL_ID:
-        return
-        
     uname_str = username if username else "Mavjud emas"
     
     msg = (
-        f"⭐ **Yangi Baho Qoldirildi!**\n"
+        f"⭐ <b>Yangi Baho Qoldirildi!</b>\n"
         f"👤 Ism: {name}\n"
         f"🔗 Username: @{uname_str}\n"
-        f"🆔 ID: <code>{user_id}</code>\n\n"
+        f"🆔 ID: <code>{user_id}</code>\n"
         f"🌟 Baho: {stars}/5"
     )
     
-    try:
-        await bot.send_message(DATABASE_CHANNEL_ID, msg, parse_mode="HTML")
-    except TelegramRetryAfter as e:
-        await asyncio.sleep(e.retry_after)
-        await bot.send_message(DATABASE_CHANNEL_ID, msg, parse_mode="HTML")
-    except Exception as e:
-        print(f"Error logging rating: {e}")
+    from database import get_all_admins
+    admins = await get_all_admins()
+    
+    for admin_id in admins:
+        try:
+            await bot.send_message(admin_id, msg, parse_mode="HTML")
+        except TelegramRetryAfter as e:
+            await asyncio.sleep(e.retry_after)
+            await bot.send_message(admin_id, msg, parse_mode="HTML")
+        except Exception as e:
+            print(f"Error logging rating to admin {admin_id}: {e}")
 
 async def log_contact(bot: Bot, user_id: int, name: str, username: str, message_text: str):
-    if not DATABASE_CHANNEL_ID:
-        return
-        
     uname_str = username if username else "Mavjud emas"
     
     msg = (
-        f"📩 **Yangi Murojaat!**\n"
+        f"📩 <b>Yangi Murojaat!</b>\n"
         f"👤 Ism: {name}\n"
         f"🔗 Username: @{uname_str}\n"
-        f"🆔 ID: <code>{user_id}</code>\n\n"
+        f"🆔 ID: <code>{user_id}</code>\n"
         f"💬 Xabar: {message_text}"
     )
     
-    try:
-        await bot.send_message(DATABASE_CHANNEL_ID, msg, parse_mode="HTML")
-    except TelegramRetryAfter as e:
-        await asyncio.sleep(e.retry_after)
-        await bot.send_message(DATABASE_CHANNEL_ID, msg, parse_mode="HTML")
-    except Exception as e:
-        print(f"Error logging contact: {e}")
+    from database import get_all_admins
+    from keyboards.inline import get_contact_reply_keyboard
+    admins = await get_all_admins()
+    kb = get_contact_reply_keyboard(user_id)
+    
+    for admin_id in admins:
+        try:
+            await bot.send_message(admin_id, msg, parse_mode="HTML", reply_markup=kb)
+        except TelegramRetryAfter as e:
+            await asyncio.sleep(e.retry_after)
+            await bot.send_message(admin_id, msg, parse_mode="HTML", reply_markup=kb)
+        except Exception as e:
+            print(f"Error logging contact to admin {admin_id}: {e}")

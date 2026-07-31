@@ -1,5 +1,14 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
+def get_user_main_menu(is_admin=False):
+    if is_admin:
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text="⚙️ Admin paneli")]
+            ],
+            resize_keyboard=True
+        )
+    return ReplyKeyboardRemove()
 def get_main_menu():
     keyboard = ReplyKeyboardMarkup(
         keyboard=[

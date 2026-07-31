@@ -282,6 +282,13 @@ def get_admin_list_keyboard(admins):
     keyboard.append([InlineKeyboardButton(text="🔙 Orqaga", callback_data="settings_admins")])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
+def get_contact_reply_keyboard(user_id: int):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="💬 Javob berish", callback_data=f"reply_contact_{user_id}")]
+        ]
+    )
+
 def get_stealth_settings_keyboard():
     return InlineKeyboardMarkup(
         inline_keyboard=[

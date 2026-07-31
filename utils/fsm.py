@@ -23,6 +23,10 @@ class SetChannelLink(StatesGroup):
 class SetCustomFooter(StatesGroup):
     footer_text = State()
 
+class ReplyContact(StatesGroup):
+    user_id = State()
+    message = State()
+
 class ContactAdmin(StatesGroup):
     message = State()
 

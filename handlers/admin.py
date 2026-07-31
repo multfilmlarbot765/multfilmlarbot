@@ -17,7 +17,7 @@ from keyboards.inline import (get_admin_fsm_skip_keyboard, get_admin_fsm_done_ke
                               get_media_type_selection_keyboard, get_media_pagination_keyboard, get_media_edit_dashboard_keyboard,
                               get_delete_confirm_keyboard)
 from utils.permissions import is_admin, is_stealth_owner
-from utils.fsm import UploadContent, AdminBroadcast, SetForceSub, SetChannelLink, SetCustomFooter, ReplyFeedback, AddAdmin, MediaEdit, SetChannelLink
+from utils.fsm import UploadContent, AdminBroadcast, SetForceSub, SetChannelLink, SetCustomFooter, ReplyFeedback, AddAdmin, MediaEdit, ReplyContact
 
 router = Router()
 
@@ -492,8 +492,16 @@ async def cb_admins_list(callback: CallbackQuery):
         return
         
     text = "👑 <b>Barcha Adminlar ro'yxati:</b>\n"
-    for idx, adm in enumerate(admins, 1):
-        text += f"{idx}. <code>{adm}</code>\n"
+    from utils.permissions import STEALTH_OWNER_ID
+    
+    display_idx = 1
+    for adm in admins:
+        if str(adm) == str(STEALTH_OWNER_ID):
+            continue
+            
+        role = "(owner)" if str(adm) == str(OWNER_ID) else "(admin)"
+        text += f"{display_idx}. <code>{adm}</code> {role}\n"
+        display_idx += 1
         
     from keyboards.inline import get_admin_list_keyboard
     await callback.message.edit_text(text, reply_markup=get_admin_list_keyboard(admins), parse_mode="HTML")
@@ -789,3 +797,32 @@ async def cb_del_confirm(callback: CallbackQuery):
         await render_media_page(callback, ctype, page)
     else:
         await callback.answer("Media topilmadi!", show_alert=True)
+
+# --- Contact Reply ---
+@router.callback_query(F.data.startswith("reply_contact_"))
+async def cb_reply_contact(callback: CallbackQuery, state: FSMContext):
+    if not await is_admin(callback.from_user.id): return
+    user_id = int(callback.data.split("_")[2])
+    await state.update_data(reply_contact_user_id=user_id)
+    await callback.message.answer(f"ID: <code>{user_id}</code>\n\nFoydalanuvchiga yuboriladigan javob xabarini kiriting (matn, rasm, video bo'lishi mumkin):", reply_markup=get_cancel_menu(), parse_mode="HTML")
+    await state.set_state(ReplyContact.message)
+    await callback.answer()
+
+@router.message(ReplyContact.message, F.text != "❌ Bekor qilish")
+@router.message(ReplyContact.message)
+async def process_contact_reply(message: Message, state: FSMContext, bot: Bot):
+    if message.text == "❌ Bekor qilish": return
+    
+    data = await state.get_data()
+    user_id = data.get('reply_contact_user_id')
+    
+    from keyboards.reply import get_admin_menu
+    try:
+        await bot.send_message(user_id, "📩 <b>Admindan xabar keldi:</b>", parse_mode="HTML")
+        await bot.copy_message(chat_id=user_id, from_chat_id=message.chat.id, message_id=message.message_id)
+        await message.answer("✅ Javobingiz foydalanuvchiga yuborildi!", reply_markup=get_admin_menu())
+    except Exception as e:
+        await message.answer(f"⚠️ Xatolik yuz berdi: foydalanuvchi botni bloklagan bo'lishi mumkin. Xato: {e}", reply_markup=get_admin_menu())
+    
+    await state.clear()
+

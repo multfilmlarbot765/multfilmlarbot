@@ -7,7 +7,7 @@ from aiogram.fsm.context import FSMContext
 from database import (add_user, get_content_by_code, get_files_by_content_id, increment_download,
                       search_content_by_keyword, get_top_content, get_random_content, get_setting,
                       add_feedback)
-from keyboards.reply import get_main_menu, get_cancel_menu
+from keyboards.reply import get_main_menu, get_cancel_menu, get_user_main_menu
 from keyboards.inline import get_content_inline_keyboard, get_top_content_keyboard, get_search_results_keyboard, get_start_menu, get_rating_keyboard, get_share_keyboard
 from utils.fsm import ContactAdmin, RateBot
 from utils.tasks import log_new_user, log_media_download, log_rating, log_contact
@@ -80,11 +80,11 @@ async def cmd_start(message: Message, bot: Bot, state: FSMContext):
     if len(args) > 1 and args[1].isdigit():
         await send_content(message, bot, int(args[1]))
     else:
-        # Remove old reply keyboard just in case
-        msg = await message.answer("Yuklanmoqda...", reply_markup=ReplyKeyboardRemove())
+        admin_status = await is_admin(user.id)
+        # Update reply keyboard based on admin status
+        msg = await message.answer("Yuklanmoqda...", reply_markup=get_user_main_menu(admin_status))
         await msg.delete()
         
-        admin_status = await is_admin(user.id)
         channel_link = await get_setting('main_channel_url')
         
         greeting = f"👋 Assalomu alaykum {user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
@@ -98,8 +98,12 @@ async def cmd_start(message: Message, bot: Bot, state: FSMContext):
 async def cb_random(callback: CallbackQuery, bot: Bot):
     content = await get_random_content()
     if content:
-        await callback.message.answer("Yuklanmoqda...")
+        msg = await callback.message.answer("Yuklanmoqda...")
         await send_content(callback.message, bot, content['code'])
+        try:
+            await msg.delete()
+        except Exception:
+            pass
     else:
         await callback.message.answer("Bazada ma'lumot yo'q.")
     await callback.answer()
@@ -131,8 +135,12 @@ async def cb_top(callback: CallbackQuery, bot: Bot):
     top_contents = await get_top_content(10)
     if idx < len(top_contents):
         content = top_contents[idx]
-        await callback.message.answer("Yuklanmoqda...")
+        msg = await callback.message.answer("Yuklanmoqda...")
         await send_content(callback.message, bot, content['code'])
+        try:
+            await msg.delete()
+        except Exception:
+            pass
     await callback.answer()
 
 @router.message(Command("help"))
@@ -212,8 +220,12 @@ async def process_text_search(message: Message, bot: Bot):
 @router.callback_query(F.data.startswith("get_content_"))
 async def cb_get_content(callback: CallbackQuery, bot: Bot):
     code = int(callback.data.split("_")[2])
-    await callback.message.answer("Yuklanmoqda...")
+    msg = await callback.message.answer("Yuklanmoqda...")
     await send_content(callback.message, bot, code)
+    try:
+        await msg.delete()
+    except Exception:
+        pass
     await callback.answer()
 
 @router.callback_query(F.data == "check_sub")
