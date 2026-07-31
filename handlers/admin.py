@@ -81,8 +81,8 @@ async def settings_channel_link_start_reply(message: Message):
 @router.message(F.text == "❌ Yopish")
 async def close_reply_menu(message: Message):
     if not await is_admin(message.from_user.id): return
-    from aiogram.types import ReplyKeyboardRemove
-    msg = await message.answer("Admin paneli yopildi.", reply_markup=ReplyKeyboardRemove())
+    from keyboards.reply import get_user_main_menu
+    msg = await message.answer("Admin paneli yopildi.", reply_markup=get_user_main_menu(True))
     await msg.delete()
     
 @router.callback_query(F.data == "close_inline_menu")
@@ -135,7 +135,7 @@ async def get_admin_stats_text() -> str:
 
 # Protect all admin routes
 @router.message(Command("admin"))
-@router.message(F.text == "⚙️ Admin paneli")
+@router.message(F.text.endswith("Admin paneli"))
 async def cmd_admin(message: Message):
     if await is_admin(message.from_user.id):
         text = await get_admin_stats_text()

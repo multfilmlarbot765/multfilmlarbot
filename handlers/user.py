@@ -84,10 +84,7 @@ async def cmd_start(message: Message, bot: Bot, state: FSMContext):
         channel_link = await get_setting('main_channel_url')
         greeting = f"👋 Assalomu alaykum {user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
         
-        if admin_status:
-            # We must leave a persistent message so Telegram doesn't hide the Reply Keyboard
-            await message.answer("👑 Admin paneli faol.", reply_markup=get_user_main_menu(True))
-        else:
+        if not admin_status:
             # For normal users, remove the Reply Keyboard invisibly
             msg = await message.answer("Yuklanmoqda...", reply_markup=get_user_main_menu(False))
             try:
