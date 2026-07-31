@@ -25,11 +25,11 @@ router = Router()
 async def admin_cancel_handler(message: Message, state: FSMContext):
     await state.clear()
     from aiogram.types import ReplyKeyboardRemove
-    from keyboards.inline import get_admin_panel_keyboard
+    from keyboards.reply import get_admin_menu
     msg = await message.answer("Amal bekor qilindi.", reply_markup=ReplyKeyboardRemove())
     await msg.delete()
     text = await get_admin_stats_text()
-    await message.answer(text, reply_markup=get_admin_panel_keyboard(), parse_mode="Markdown")
+    await message.answer(text, reply_markup=get_admin_menu(), parse_mode="Markdown")
 
 
 
@@ -101,7 +101,7 @@ async def cb_settings_link_edit(callback: CallbackQuery, state: FSMContext):
 @router.message(SetChannelLink.link)
 async def settings_link_save(message: Message, state: FSMContext):
     link = message.text.strip()
-    if link.startswith("http://") or link.startswith("https://"):
+    if "http://" in link or "https://" in link or "t.me/" in link:
         await set_setting('main_channel_url', link)
         from aiogram.types import ReplyKeyboardRemove
         from keyboards.inline import get_channel_link_settings_keyboard
