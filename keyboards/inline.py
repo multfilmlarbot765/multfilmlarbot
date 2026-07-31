@@ -228,7 +228,7 @@ def get_settings_dashboard_keyboard():
                 InlineKeyboardButton(text="🕵️ Baza logi", callback_data="settings_stealth")
             ],
             [
-                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
+                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
             ]
         ]
     )
@@ -241,7 +241,7 @@ def get_forcesub_settings_keyboard():
                 InlineKeyboardButton(text="🗑 O'chirish", callback_data="forcesub_delete")
             ],
             [
-                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
+                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
             ]
         ]
     )
@@ -254,7 +254,7 @@ def get_footer_settings_keyboard():
                 InlineKeyboardButton(text="🗑 O'chirish", callback_data="footer_delete")
             ],
             [
-                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
+                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
             ]
         ]
     )
@@ -267,7 +267,7 @@ def get_admin_settings_keyboard():
                 InlineKeyboardButton(text="➕ Yangi admin", callback_data="admins_add")
             ],
             [
-                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
+                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
             ]
         ]
     )
@@ -284,6 +284,35 @@ def get_stealth_settings_keyboard():
         inline_keyboard=[
             [
                 InlineKeyboardButton(text="🔄 Holatni o'zgartirish", callback_data="stealth_toggle")
+            ],
+            [
+                InlineKeyboardButton(text="🔙 Orqaga", callback_data="admin_panel_open")
+            ]
+        ]
+    )
+
+
+def get_admin_panel_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="➕ Multfilm yuklash", callback_data="admin_upload_multfilm"),
+                InlineKeyboardButton(text="➕ Kino yuklash", callback_data="admin_upload_kino")
+            ],
+            [
+                InlineKeyboardButton(text="✏️ Medialarni tahrirlash", callback_data="admin_edit_media"),
+                InlineKeyboardButton(text="📢 Broadcast", callback_data="admin_broadcast")
+            ],
+            [
+                InlineKeyboardButton(text="📋 Baholar va Xabarlar", callback_data="admin_feedback_panel")
+            ],
+            [
+                InlineKeyboardButton(text="⚙️ Obuna sozlash", callback_data="settings_forcesub_start"),
+                InlineKeyboardButton(text="📝 Footer sozlash", callback_data="settings_footer_start")
+            ],
+            [
+                InlineKeyboardButton(text="👑 Adminlar boshqaruvi", callback_data="settings_admins_start"),
+                InlineKeyboardButton(text="🕵️ Baza Logi", callback_data="settings_stealth_start")
             ],
             [
                 InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")

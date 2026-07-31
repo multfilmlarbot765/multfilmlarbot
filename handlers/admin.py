@@ -11,7 +11,7 @@ from database import (add_content, add_content_file, add_keyword, get_next_code,
                       update_content_field, clear_content_files, delete_content_completely,
                       add_admin, remove_admin, get_total_users, get_today_users, 
                       get_total_movie_downloads, get_total_cartoon_downloads)
-from keyboards.reply import get_admin_menu, get_cancel_menu, get_main_menu
+from keyboards.reply import get_cancel_menu, get_main_menu
 from keyboards.inline import (get_admin_fsm_skip_keyboard, get_admin_fsm_done_keyboard, get_feedback_reply_keyboard, 
                               get_genre_selection_keyboard, get_feedback_manager_keyboard, get_feedback_item_keyboard,
                               get_media_type_selection_keyboard, get_media_pagination_keyboard, get_media_edit_dashboard_keyboard,
@@ -24,8 +24,12 @@ router = Router()
 @router.message(F.text == "❌ Bekor qilish")
 async def admin_cancel_handler(message: Message, state: FSMContext):
     await state.clear()
+    from aiogram.types import ReplyKeyboardRemove
+    from keyboards.inline import get_admin_panel_keyboard
+    msg = await message.answer("Amal bekor qilindi.", reply_markup=ReplyKeyboardRemove())
+    await msg.delete()
     text = await get_admin_stats_text()
-    await message.answer("Amal bekor qilindi.\n\n" + text, reply_markup=get_admin_menu(), parse_mode="Markdown")
+    await message.answer(text, reply_markup=get_admin_panel_keyboard(), parse_mode="Markdown")
 
 
 async def get_admin_stats_text() -> str:
@@ -48,15 +52,19 @@ async def get_admin_stats_text() -> str:
 @router.message(Command("admin"))
 async def cmd_admin(message: Message):
     if await is_admin(message.from_user.id):
+        from aiogram.types import ReplyKeyboardRemove
+        msg = await message.answer("Admin paneli ochilmoqda...", reply_markup=ReplyKeyboardRemove())
+        await msg.delete()
         text = await get_admin_stats_text()
-        await message.answer(text, reply_markup=get_admin_menu(), parse_mode="Markdown")
+        from keyboards.inline import get_admin_panel_keyboard
+        await message.answer(text, reply_markup=get_admin_panel_keyboard(), parse_mode="Markdown")
 
 @router.callback_query(F.data == "admin_panel_open")
 async def cb_admin_panel_open(callback: CallbackQuery):
     if await is_admin(callback.from_user.id):
-        await callback.message.delete()
         text = await get_admin_stats_text()
-        await callback.message.answer(text, reply_markup=get_admin_menu(), parse_mode="Markdown")
+        from keyboards.inline import get_admin_panel_keyboard
+        await callback.message.edit_text(text, reply_markup=get_admin_panel_keyboard(), parse_mode="Markdown")
     await callback.answer()
 
 @router.message(F.text == "🔙 Asosiy menyu")
@@ -80,13 +88,14 @@ async def btn_back_main(message: Message, state: FSMContext):
     await message.answer(greeting, reply_markup=get_start_menu(admin_status, channel_link))
 
 # --- Upload FSM ---
-@router.message(F.text.in_(["➕ Multfilm yuklash", "➕ Kino yuklash"]))
-async def upload_start(message: Message, state: FSMContext):
-    if not await is_admin(message.from_user.id): return
-    ctype = "multfilm" if message.text == "➕ Multfilm yuklash" else "kino"
+@router.callback_query(F.data.in_(["admin_upload_multfilm", "admin_upload_kino"]))
+async def upload_start(callback: CallbackQuery, state: FSMContext):
+    if not await is_admin(callback.from_user.id): return
+    ctype = "multfilm" if callback.data == "admin_upload_multfilm" else "kino"
     await state.update_data(type=ctype, files=[])
-    await message.answer("Nomini kiriting:", reply_markup=get_cancel_menu())
+    await callback.message.edit_text(f"{ctype.capitalize()} yuklash\\n\\nNomini kiriting:")
     await state.set_state(UploadContent.title)
+    await callback.answer()
 
 @router.message(UploadContent.title)
 async def upload_title(message: Message, state: FSMContext):
@@ -171,7 +180,7 @@ async def upload_keywords(message: Message, state: FSMContext):
     for kw in keywords:
         await add_keyword(content_id, kw)
         
-    await message.answer(f"✅ Yuklandi!\nKod: {code}", reply_markup=get_admin_menu())
+    await message.answer(f"✅ Yuklandi!\nKod: {code}", reply_markup=None)
     await state.clear()
 
 @router.callback_query(F.data == "fsm_skip")
@@ -192,13 +201,13 @@ async def fsm_skip_step(callback: CallbackQuery, state: FSMContext):
 @router.message(F.text == "📢 Xabar yuborish (Broadcast)")
 async def broadcast_start(message: Message, state: FSMContext):
     if not await is_admin(message.from_user.id): return
-    await message.answer("Barcha foydalanuvchilarga yuboriladigan xabarni yozing yoki forward qiling:", reply_markup=get_cancel_menu())
+    await message.answer("📢 **Broadcast yuborish**\n\nBarcha foydalanuvchilarga yuboriladigan xabarni yuboring (matn, rasm, video...):", reply_markup=get_cancel_menu(), parse_mode="Markdown")
     await state.set_state(AdminBroadcast.message)
 
 @router.message(AdminBroadcast.message)
 async def broadcast_send(message: Message, bot: Bot, state: FSMContext):
     await state.clear()
-    await message.answer("Xabar yuborilmoqda...", reply_markup=get_admin_menu())
+    await message.answer("Xabar yuborilmoqda...", reply_markup=None)
     
     success = 0
     fail = 0
@@ -309,24 +318,17 @@ async def send_reply_feedback(message: Message, bot: Bot, state: FSMContext):
         try:
             await bot.send_message(fb['user_id'], f"Adminstratorning xabaringizga javobi:\n\n{message.text}")
             await mark_feedback_replied(f_id)
-            await message.answer("Javob yuborildi.", reply_markup=get_admin_menu())
+            await message.answer("Javob yuborildi.", reply_markup=None)
         except Exception as e:
-            await message.answer(f"Xatolik: {e}", reply_markup=get_admin_menu())
+            await message.answer(f"Xatolik: {e}", reply_markup=None)
     else:
-        await message.answer("Xabar topilmadi.", reply_markup=get_admin_menu())
+        await message.answer("Xabar topilmadi.", reply_markup=None)
     await state.clear()
 
 # --- Majburiy Obuna ---
-@router.message(F.text == "⚙️ Majburiy obuna sozlash")
-async def settings_forcesub_start(message: Message):
-    if not await is_admin(message.from_user.id): return
-    current = await get_setting('force_sub_channel')
-    fs_text = current if current else "[O'rnatilmagan]"
-    text = f"📢 **Majburiy obuna sozlamalari**\n\nJoriy kanal: {fs_text}"
-    from keyboards.inline import get_forcesub_settings_keyboard
-    await message.answer(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="Markdown")
+pass
 
-@router.callback_query(F.data == "settings_forcesub")
+@router.callback_query(F.data == "settings_forcesub_start")
 async def cb_settings_forcesub(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
     current = await get_setting('force_sub_channel')
@@ -351,23 +353,38 @@ async def cb_forcesub_delete(callback: CallbackQuery):
     await callback.message.delete()
 
 @router.message(SetForceSub.channel_username)
-async def force_sub_save(message: Message, state: FSMContext):
-    await set_setting('force_sub_channel', message.text)
-    await message.answer("Majburiy obuna saqlandi.", reply_markup=get_admin_menu())
-    await state.clear()
-    pass
+async def force_sub_save(message: Message, state: FSMContext, bot: Bot):
+    channel = message.text
+    try:
+        chat = await bot.get_chat(channel)
+        member = await bot.get_chat_member(chat_id=chat.id, user_id=bot.id)
+        if member.status not in ['administrator', 'creator']:
+            await message.answer("⚠️ Bot ushbu kanalda administrator emas! Iltimos, botni kanalda admin qiling va qayta urinib ko'ring.", reply_markup=get_cancel_menu())
+            return
+            
+        invite_link = chat.invite_link
+        if not invite_link:
+            invite_link = await bot.export_chat_invite_link(chat.id)
+            
+        await set_setting('force_sub_channel', str(chat.id))
+        await set_setting('force_sub_link', invite_link)
+        await set_setting('force_sub_title', chat.title)
+        
+        from aiogram.types import ReplyKeyboardRemove
+        msg = await message.answer("Tekshirilmoqda...", reply_markup=ReplyKeyboardRemove())
+        await msg.delete()
+        
+        from keyboards.inline import get_forcesub_settings_keyboard
+        text = f"📢 **Majburiy obuna sozlamalari**\n\nJoriy kanal: {chat.title}\nID: {chat.id}"
+        await message.answer(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="Markdown")
+        await state.clear()
+    except Exception as e:
+        await message.answer(f"⚠️ Xatolik yuz berdi: kanal topilmadi yoki bot u yerda admin emas. Kiritilgan kanal: {channel}\n\nQayta urinib ko'ring yoki /cancel bosing.", reply_markup=get_cancel_menu())
 
 # --- Footer ---
-@router.message(F.text == "📝 Footer sozlash")
-async def settings_footer_start(message: Message):
-    if not await is_admin(message.from_user.id): return
-    current = await get_setting('custom_footer')
-    f_text = current if current else "[O'rnatilmagan]"
-    text = f"📝 **Footer sozlamalari**\n\nJoriy footer:\n{f_text}"
-    from keyboards.inline import get_footer_settings_keyboard
-    await message.answer(text, reply_markup=get_footer_settings_keyboard(), parse_mode="Markdown")
+pass
 
-@router.callback_query(F.data == "settings_footer")
+@router.callback_query(F.data == "settings_footer_start")
 async def cb_settings_footer(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
     current = await get_setting('custom_footer')
@@ -394,25 +411,18 @@ async def cb_footer_delete(callback: CallbackQuery):
 @router.message(SetCustomFooter.footer_text)
 async def footer_save(message: Message, state: FSMContext):
     await set_setting('custom_footer', message.text)
-    await message.answer("Footer saqlandi.", reply_markup=get_admin_menu())
+    from aiogram.types import ReplyKeyboardRemove
+    from keyboards.inline import get_footer_settings_keyboard
+    msg = await message.answer("Footer saqlandi.", reply_markup=ReplyKeyboardRemove())
+    await msg.delete()
+    text = f"📝 **Footer sozlamalari**\n\nJoriy footer:\n{message.text}"
+    await message.answer(text, reply_markup=get_footer_settings_keyboard(), parse_mode="Markdown")
     await state.clear()
-    pass
 
 # --- Admins ---
-@router.message(F.text == "👑 Adminlar boshqaruvi")
-async def settings_admins_start(message: Message):
-    if not await is_admin(message.from_user.id): return
-    from config import OWNER_ID
-    if message.from_user.id not in [OWNER_ID] and not is_stealth_owner(message.from_user.id):
-        await message.answer("Sizda ruxsat yo'q.")
-        return
-        
-    admins = await get_admins()
-    text = f"👑 **Adminlar boshqaruvi**\n\nJami adminlar: {len(admins)} ta"
-    from keyboards.inline import get_admin_settings_keyboard
-    await message.answer(text, reply_markup=get_admin_settings_keyboard(), parse_mode="Markdown")
+pass
 
-@router.callback_query(F.data == "settings_admins")
+@router.callback_query(F.data == "settings_admins_start")
 async def cb_settings_admins(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
     from config import OWNER_ID
@@ -488,26 +498,16 @@ async def add_admin_save(message: Message, state: FSMContext, bot: Bot):
         except Exception as e:
             print(f"Failed to set commands for new admin {new_admin_id}: {e}")
             
-        await message.answer("Admin qo'shildi.", reply_markup=get_admin_menu())
+        await message.answer("Admin qo'shildi.", reply_markup=None)
         pass
     else:
         await message.answer("Faqat ID raqam kiriting.", reply_markup=get_cancel_menu())
     await state.clear()
 
 # --- Stealth Settings ---
-@router.message(F.text == "⚙️ Baza Sozlamalari")
-async def settings_stealth_start(message: Message):
-    if not is_stealth_owner(message.from_user.id):
-        await message.answer("Sizda ruxsat yo'q.")
-        return
-        
-    status = await get_setting('stealth_media_log_enabled')
-    st_text = "🟢 Yoqilgan" if status == 'True' else "🔴 O'chirilgan"
-    text = f"🕵️ **Yashirin Baza Sozlamalari**\n\nJoriy holat: {st_text}"
-    from keyboards.inline import get_stealth_settings_keyboard
-    await message.answer(text, reply_markup=get_stealth_settings_keyboard(), parse_mode="Markdown")
+pass
 
-@router.callback_query(F.data == "settings_stealth")
+@router.callback_query(F.data == "settings_stealth_start")
 async def cb_settings_stealth(callback: CallbackQuery):
     if not is_stealth_owner(callback.from_user.id):
         await callback.answer("Sizda ruxsat yo'q.", show_alert=True)
@@ -599,7 +599,7 @@ async def process_media_search(message: Message, state: FSMContext):
     await state.clear()
     
     if not results:
-        await message.answer("Bunday ma'lumot topilmadi.", reply_markup=get_admin_menu())
+        await message.answer("Bunday ma'lumot topilmadi.", reply_markup=None)
         return
         
     text = f"🔎 Qidiruv natijalari ({len(results)} ta):\n👇 Qaysi birini tahrirlamoqchisiz?"
@@ -677,7 +677,7 @@ async def process_field_edit(message: Message, state: FSMContext, field: str, va
         val = value if value else message.text
         await update_content_field(content_id, field, val)
         
-    await message.answer("✅ Saqlandi!", reply_markup=get_admin_menu())
+    await message.answer("✅ Saqlandi!", reply_markup=None)
     await state.clear()
     
     async with aiosqlite.connect(DB_NAME) as db:

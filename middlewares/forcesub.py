@@ -1,10 +1,10 @@
 from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
-from aiogram.types import Message, CallbackQuery, Update
-from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+
 from database import get_setting
-from keyboards.inline import get_force_sub_keyboard
-from utils.permissions import is_admin
+from utils.permissions import is_admin, is_stealth_owner
+from config import OWNER_ID
 
 class ForceSubMiddleware(BaseMiddleware):
     async def __call__(
@@ -13,7 +13,6 @@ class ForceSubMiddleware(BaseMiddleware):
         event: Any,
         data: Dict[str, Any]
     ) -> Any:
-        # Check if it's a message or callback
         user = None
         is_callback = False
         
@@ -22,53 +21,55 @@ class ForceSubMiddleware(BaseMiddleware):
         elif isinstance(event, CallbackQuery):
             user = event.from_user
             is_callback = True
-            
+            # Allow the check_forcesub callback itself to pass through so the handler can evaluate it
+            if event.data == "check_forcesub":
+                return await handler(event, data)
+                
         if not user:
             return await handler(event, data)
             
-        # Exclude admins from force sub
-        if await is_admin(user.id):
+        # 1. Exemptions: OWNER, STEALTH_OWNER, DB Admins
+        if user.id == OWNER_ID or is_stealth_owner(user.id) or await is_admin(user.id):
             return await handler(event, data)
             
-        channel_id_or_username = await get_setting('force_sub_channel')
-        if not channel_id_or_username:
+        # 2. Fetch channel config
+        channel_id_str = await get_setting('force_sub_channel')
+        if not channel_id_str:
             return await handler(event, data)
+            
+        invite_link = await get_setting('force_sub_link')
+        if not invite_link:
+            invite_link = "https://t.me/telegram"
             
         bot = data['bot']
+        
         try:
-            member = await bot.get_chat_member(chat_id=channel_id_or_username, user_id=user.id)
-            if member.status in ['member', 'administrator', 'creator']:
-                return await handler(event, data)
+            # 3. Check membership
+            member = await bot.get_chat_member(chat_id=channel_id_str, user_id=user.id)
+            if member.status in ['left', 'kicked']:
+                # Block handler and send force sub prompt
+                text = "⚠️ Botdan foydalanish uchun quyidagi kanalimizga obuna bo'lishingiz shart!"
+                
+                kb = InlineKeyboardMarkup(
+                    inline_keyboard=[
+                        [InlineKeyboardButton(text="📢 Kanalga obuna bo'lish", url=invite_link)],
+                        [InlineKeyboardButton(text="✅ Obunani tekshirish", callback_data="check_forcesub")]
+                    ]
+                )
+                
+                if is_callback:
+                    await event.message.answer(text, reply_markup=kb)
+                    await event.answer()
+                else:
+                    await event.answer(text, reply_markup=kb)
+                
+                # Block the handler execution
+                return
+                
         except Exception as e:
-            print(f"Force sub error: {e}")
-            # If we can't check (bot not admin, channel deleted, etc), bypass to avoid locking users out.
+            print(f"Force sub check error: {e}")
+            # On API error (e.g., bot lost admin), fail open
             return await handler(event, data)
             
-        # Determine channel link to show user
-        channel_link = channel_id_or_username
-        if not channel_link.startswith('http'):
-            if channel_link.startswith('@'):
-                channel_link = f"https://t.me/{channel_link[1:]}"
-            else:
-                try:
-                    chat = await bot.get_chat(channel_id_or_username)
-                    if chat.invite_link:
-                        channel_link = chat.invite_link
-                    else:
-                        channel_link = await bot.export_chat_invite_link(channel_id_or_username)
-                except Exception as e:
-                    print(f"Cannot get invite link: {e}")
-                    return await handler(event, data)
-                
-        text = "Botdan foydalanish uchun quyidagi kanalga obuna bo'lishingiz kerak."
-        kb = get_force_sub_keyboard(channel_link)
-        
-        if is_callback:
-            if event.data == "check_sub":
-                await event.answer("Siz hali kanalga obuna bo'lmadingiz!", show_alert=True)
-            else:
-                await bot.send_message(chat_id=user.id, text=text, reply_markup=kb)
-        else:
-            await event.answer(text, reply_markup=kb)
-        
-        return
+        # If member or restricted etc (not left/kicked)
+        return await handler(event, data)

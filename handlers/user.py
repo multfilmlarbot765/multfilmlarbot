@@ -229,3 +229,33 @@ async def cb_check_sub(callback: CallbackQuery):
         reply_markup=get_start_menu(admin_status, channel_link)
     )
     await callback.answer()
+
+
+@router.callback_query(F.data == "check_forcesub")
+async def cb_check_forcesub(callback: CallbackQuery, bot: Bot, state: FSMContext):
+    channel_id_str = await get_setting('force_sub_channel')
+    if not channel_id_str:
+        await cmd_start(callback.message, bot, state)
+        await callback.message.delete()
+        return
+        
+    try:
+        member = await bot.get_chat_member(chat_id=channel_id_str, user_id=callback.from_user.id)
+        if member.status not in ['left', 'kicked']:
+            # Subscribed
+            await callback.message.delete()
+            # Send greeting
+            admin_status = await is_admin(callback.from_user.id)
+            channel_link = await get_setting('movies_channel_link')
+            greeting = f"👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
+            await callback.message.answer(greeting, reply_markup=get_start_menu(admin_status, channel_link))
+        else:
+            # Not subscribed
+            await callback.answer("❌ Siz hali kanalga obuna bo'lmadingiz!", show_alert=True)
+    except Exception as e:
+        print(f"Check forcesub error: {e}")
+        await callback.message.delete()
+        admin_status = await is_admin(callback.from_user.id)
+        channel_link = await get_setting('movies_channel_link')
+        greeting = f"👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
+        await callback.message.answer(greeting, reply_markup=get_start_menu(admin_status, channel_link))
