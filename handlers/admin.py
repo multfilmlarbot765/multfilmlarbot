@@ -10,7 +10,7 @@ from database import (add_content, add_content_file, add_keyword, get_next_code,
                       delete_feedback, get_content_paginated, get_content_count, search_content_wildcard,
                       update_content_field, clear_content_files, delete_content_completely,
                       add_admin, remove_admin, get_total_users, get_today_users, 
-                      get_total_movie_downloads, get_total_cartoon_downloads)
+                      get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
 from keyboards.reply import get_cancel_menu, get_main_menu
 from keyboards.inline import (get_admin_fsm_skip_keyboard, get_admin_fsm_done_keyboard, get_feedback_reply_keyboard, 
                               get_genre_selection_keyboard, get_feedback_manager_keyboard, get_feedback_item_keyboard,
@@ -54,7 +54,7 @@ async def settings_footer_start_reply(message: Message):
 @router.message(F.text == "👑 Adminlar boshqaruvi")
 async def settings_admins_start_reply(message: Message):
     if not await is_admin(message.from_user.id): return
-    admins = await get_admins()
+    admins = await get_all_admins()
     text = f"👑 **Adminlar boshqaruvi**\n\nJami adminlar: {len(admins)} ta"
     from keyboards.inline import get_admin_settings_keyboard
     await message.answer(text, reply_markup=get_admin_settings_keyboard(), parse_mode="Markdown")
@@ -146,7 +146,7 @@ async def upload_start(message: Message, state: FSMContext):
     if not await is_admin(message.from_user.id): return
     ctype = "multfilm" if message.text == "➕ Multfilm yuklash" else "kino"
     await state.update_data(type=ctype, files=[])
-    await callback.message.edit_text(f"{ctype.capitalize()} yuklash\\n\\nNomini kiriting:")
+    await message.answer(f"{ctype.capitalize()} yuklash\\n\\nNomini kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(UploadContent.title)
     
 @router.message(UploadContent.title)
@@ -247,7 +247,7 @@ async def fsm_skip_step(callback: CallbackQuery, state: FSMContext):
         await state.set_state(UploadContent.genre)
     
 # --- Broadcasting ---
-@router.message(F.text == "📢 Xabar yuborish (Broadcast)")
+@router.message(F.text == "📢 Broadcast")
 async def broadcast_start(message: Message, state: FSMContext):
     if not await is_admin(message.from_user.id): return
     await message.answer("📢 **Broadcast yuborish**\n\nBarcha foydalanuvchilarga yuboriladigan xabarni yuboring (matn, rasm, video...):", reply_markup=get_cancel_menu(), parse_mode="Markdown")
@@ -275,7 +275,7 @@ async def broadcast_send(message: Message, bot: Bot, state: FSMContext):
     await message.answer(f"Tarqatildi.\n✅ Muvaffaqiyatli: {success}\n❌ Muqaffaqiyatsiz: {fail}")
 
 # --- Feedback Manager ---
-@router.message(F.text == "📋 Baholar va Xabarlar boshqaruv paneli")
+@router.message(F.text == "📋 Baholar va Xabarlar")
 async def feedback_manager(message: Message):
     if not await is_admin(message.from_user.id): return
     rates = await get_pending_feedback('rate')
@@ -472,7 +472,7 @@ async def cb_settings_admins(callback: CallbackQuery):
         await callback.answer("Sizda ruxsat yo'q.", show_alert=True)
         return
         
-    admins = await get_admins()
+    admins = await get_all_admins()
     text = f"👑 **Adminlar boshqaruvi**\n\nJami adminlar: {len(admins)} ta"
     from keyboards.inline import get_admin_settings_keyboard
     await callback.message.edit_text(text, reply_markup=get_admin_settings_keyboard(), parse_mode="Markdown")
@@ -483,7 +483,7 @@ async def cb_admins_list(callback: CallbackQuery):
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id): return
     
-    admins = await get_admins()
+    admins = await get_all_admins()
     if not admins:
         await callback.answer("Qo'shimcha adminlar yo'q.", show_alert=True)
         return
