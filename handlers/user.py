@@ -246,15 +246,36 @@ async def cb_check_sub(callback: CallbackQuery):
 
 @router.callback_query(F.data == "check_forcesub")
 async def cb_check_forcesub(callback: CallbackQuery, bot: Bot, state: FSMContext):
-    channel_id_str = await get_setting('force_sub_channel')
-    if not channel_id_str:
+    import json
+    channels_json = await get_setting('force_sub_channels')
+    channels = []
+    if channels_json:
+        try:
+            channels = json.loads(channels_json)
+        except Exception:
+            pass
+    else:
+        old_ch = await get_setting('force_sub_channel')
+        if old_ch:
+            channels = [{"id": old_ch}]
+            
+    if not channels:
         await cmd_start(callback.message, bot, state)
         await callback.message.delete()
         return
         
     try:
-        member = await bot.get_chat_member(chat_id=channel_id_str, user_id=callback.from_user.id)
-        if member.status not in ['left', 'kicked']:
+        is_subscribed = True
+        for ch in channels:
+            try:
+                member = await bot.get_chat_member(chat_id=ch['id'], user_id=callback.from_user.id)
+                if member.status in ['left', 'kicked']:
+                    is_subscribed = False
+                    break
+            except Exception:
+                pass
+                
+        if is_subscribed:
             # Subscribed
             await callback.message.delete()
             # Send greeting

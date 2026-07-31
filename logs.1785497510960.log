@@ -1,0 +1,1001 @@
+2026-07-31T11:06:51.981552612Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:06:51.981558732Z [inf]          content=raw_result,
+2026-07-31T11:06:51.981563032Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:06:51.981568382Z [inf]      return await wrapped()
+2026-07-31T11:06:51.981573942Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:06:51.981578692Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:06:51.981583342Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:06:51.981588382Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:06:51.981593382Z [inf]      return await bot(self)
+2026-07-31T11:06:51.981598212Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:06:51.981602562Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:06:51.981607362Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:06:51.981612292Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:06:51.981616962Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:06:51.981622592Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:06:51.981627261Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:06:51.982358294Z [inf]      )
+2026-07-31T11:06:51.982363104Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:06:51.982367084Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:06:51.982370824Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:06:54.954987950Z [inf]  INFO:aiogram.event:Update id=976932581 is handled. Duration 238 ms by bot id=8678096283
+2026-07-31T11:07:55.027334612Z [inf]  INFO:aiogram.event:Update id=976932582 is handled. Duration 519 ms by bot id=8678096283
+2026-07-31T11:12:58.208180961Z [inf]  INFO:aiogram.event:Update id=976932583 is handled. Duration 506 ms by bot id=8678096283
+2026-07-31T11:12:58.208183951Z [inf]  INFO:aiogram.event:Update id=976932584 is not handled. Duration 331 ms by bot id=8678096283
+2026-07-31T11:12:58.208186691Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932584 by bot id=8678096283
+2026-07-31T11:12:58.208189581Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:12:58.208192101Z [inf]  Traceback (most recent call last):
+2026-07-31T11:12:58.208194621Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:12:58.208197451Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:12:58.208201840Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.208204830Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:12:58.208208170Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:12:58.208210700Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.208213680Z [inf]      ...<7 lines>...
+2026-07-31T11:12:58.208216610Z [inf]      )
+2026-07-31T11:12:58.208219960Z [inf]      ^
+2026-07-31T11:12:58.208222880Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:12:58.208225830Z [inf]      return await handler(event, data)
+2026-07-31T11:12:58.208228360Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.208232140Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:12:58.208234760Z [inf]      return await handler(event, data)
+2026-07-31T11:12:58.211632485Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.211639735Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:12:58.211644585Z [inf]      return await handler(event, data)
+2026-07-31T11:12:58.211649055Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.211652625Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:12:58.211657525Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:12:58.211661725Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.211665975Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:12:58.211669625Z [inf]      return await wrapped()
+2026-07-31T11:12:58.211673415Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.211677395Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:12:58.211682325Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:12:58.211686295Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.211690295Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:12:58.211694314Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:12:58.211698244Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.211702354Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:12:58.211706754Z [inf]      return await self._propagate_event(
+2026-07-31T11:12:58.212886322Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.212897252Z [inf]      ...<4 lines>...
+2026-07-31T11:12:58.212904822Z [inf]      )
+2026-07-31T11:12:58.212911872Z [inf]      ^
+2026-07-31T11:12:58.212913212Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:12:58.212928102Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:12:58.212931462Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.212938572Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:12:58.212941802Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:12:58.212946552Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.212953002Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:12:58.212957812Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:12:58.212963042Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.212967812Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:12:58.212972401Z [inf]      return await self._propagate_event(
+2026-07-31T11:12:58.212977261Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.212982401Z [inf]      ...<4 lines>...
+2026-07-31T11:12:58.212986971Z [inf]      )
+2026-07-31T11:12:58.212991891Z [inf]      ^
+2026-07-31T11:12:58.212997031Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:12:58.213886802Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:12:58.213895402Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.213900372Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:12:58.213904282Z [inf]      return await handler(event, data)
+2026-07-31T11:12:58.213908302Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.213912752Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:12:58.213916672Z [inf]      return await wrapped()
+2026-07-31T11:12:58.213920382Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.213925172Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:12:58.213930142Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:12:58.213933832Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:12:58.213937832Z [inf]      return await bot(self)
+2026-07-31T11:12:58.213942392Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.213945972Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:12:58.213949662Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:12:58.213953312Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.213958352Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:12:58.213962552Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:12:58.213966212Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:12:58.213969762Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:12:58.215172359Z [inf]      response = self.check_response(
+2026-07-31T11:12:58.215177569Z [inf]          bot=bot,
+2026-07-31T11:12:58.215182879Z [inf]      ...<2 lines>...
+2026-07-31T11:12:58.215186729Z [inf]          content=raw_result,
+2026-07-31T11:12:58.215190799Z [inf]      )
+2026-07-31T11:12:58.215195609Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:12:58.215198929Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:12:58.215202379Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:13:00.375177502Z [inf]  INFO:aiogram.event:Update id=976932585 is handled. Duration 173 ms by bot id=8678096283
+2026-07-31T11:13:06.719652166Z [inf]  INFO:aiogram.event:Update id=976932586 is handled. Duration 176 ms by bot id=8678096283
+2026-07-31T11:13:13.342017403Z [inf]  INFO:aiogram.event:Update id=976932587 is not handled. Duration 324 ms by bot id=8678096283
+2026-07-31T11:13:13.342023693Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932587 by bot id=8678096283
+2026-07-31T11:13:13.342027643Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:13:13.342030553Z [inf]  Traceback (most recent call last):
+2026-07-31T11:13:13.342033673Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:13:13.342036962Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:13:13.342039972Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.342043322Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:13:13.342046282Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:13:13.342049402Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.342052402Z [inf]      ...<7 lines>...
+2026-07-31T11:13:13.342055712Z [inf]      )
+2026-07-31T11:13:13.342058282Z [inf]      ^
+2026-07-31T11:13:13.342061002Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:13:13.342063602Z [inf]      return await handler(event, data)
+2026-07-31T11:13:13.342066582Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.342069252Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:13:13.342072342Z [inf]      return await handler(event, data)
+2026-07-31T11:13:13.342075182Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.342077742Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:13:13.343423218Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.343463218Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:13:13.343469408Z [inf]      return await self._propagate_event(
+2026-07-31T11:13:13.343474778Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.343477838Z [inf]      return await handler(event, data)
+2026-07-31T11:13:13.343478938Z [inf]      ...<4 lines>...
+2026-07-31T11:13:13.343483458Z [inf]      )
+2026-07-31T11:13:13.343487288Z [inf]      ^
+2026-07-31T11:13:13.343494608Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.343502268Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:13:13.343510207Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:13:13.343515467Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.343520977Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:13:13.343526867Z [inf]      return await wrapped()
+2026-07-31T11:13:13.343531377Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.343537147Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:13:13.343542447Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:13:13.343548257Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.343553797Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:13:13.343559167Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:13:13.345012972Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:13:13.345018652Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:13:13.345025892Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:13:13.345026322Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.345031072Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:13:13.345038132Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:13:13.345039152Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:13:13.345046572Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.345047932Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.345053652Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:13:13.345056372Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:13:13.345061822Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:13:13.345065732Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.345069292Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:13:13.345073351Z [inf]      return await self._propagate_event(
+2026-07-31T11:13:13.345077401Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.345081481Z [inf]      ...<4 lines>...
+2026-07-31T11:13:13.345085411Z [inf]      )
+2026-07-31T11:13:13.345089051Z [inf]      ^
+2026-07-31T11:13:13.345965623Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:13:13.345970213Z [inf]      return await handler(event, data)
+2026-07-31T11:13:13.345971323Z [inf]      response = self.check_response(
+2026-07-31T11:13:13.345977293Z [inf]          bot=bot,
+2026-07-31T11:13:13.345979913Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.345984583Z [inf]      ...<2 lines>...
+2026-07-31T11:13:13.345987483Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:13:13.345991523Z [inf]          content=raw_result,
+2026-07-31T11:13:13.345994972Z [inf]      return await wrapped()
+2026-07-31T11:13:13.345999822Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.346005442Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:13:13.346009282Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:13:13.346013522Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:13:13.346017552Z [inf]      return await bot(self)
+2026-07-31T11:13:13.346021752Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.346025952Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:13:13.346030192Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:13:13.346034692Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.346039622Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:13:13.346043412Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:13:13.346047742Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:13.346568226Z [inf]      )
+2026-07-31T11:13:13.346571416Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:13:13.346574406Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:13:13.346577496Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:13:53.361983522Z [inf]  INFO:aiogram.event:Update id=976932588 is not handled. Duration 378 ms by bot id=8678096283
+2026-07-31T11:13:53.361987692Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932588 by bot id=8678096283
+2026-07-31T11:13:53.361991062Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:13:53.361994592Z [inf]  Traceback (most recent call last):
+2026-07-31T11:13:53.361997702Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:13:53.362000732Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:13:53.362003452Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.362006812Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:13:53.362009922Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:13:53.362013352Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.362021111Z [inf]      ...<7 lines>...
+2026-07-31T11:13:53.362024461Z [inf]      )
+2026-07-31T11:13:53.362027721Z [inf]      ^
+2026-07-31T11:13:53.362031171Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:13:53.362035281Z [inf]      return await handler(event, data)
+2026-07-31T11:13:53.362039621Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.362042011Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:13:53.362045141Z [inf]      return await handler(event, data)
+2026-07-31T11:13:53.362048781Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.362052001Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:13:53.363625765Z [inf]      return await handler(event, data)
+2026-07-31T11:13:53.363631745Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.363637155Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:13:53.363642515Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:13:53.363647895Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.363653495Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:13:53.363658335Z [inf]      return await wrapped()
+2026-07-31T11:13:53.363663355Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.363667814Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:13:53.363673444Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:13:53.363678514Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.363685194Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:13:53.363691134Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:13:53.363696674Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.363701894Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:13:53.363707244Z [inf]      return await self._propagate_event(
+2026-07-31T11:13:53.363712494Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.363717514Z [inf]      ...<4 lines>...
+2026-07-31T11:13:53.363722584Z [inf]      )
+2026-07-31T11:13:53.363727424Z [inf]      ^
+2026-07-31T11:13:53.364814613Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:13:53.364822683Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:13:53.364827323Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.364831333Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:13:53.364835263Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:13:53.364839043Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.364842733Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:13:53.364846073Z [inf]      return await self._propagate_event(
+2026-07-31T11:13:53.364849592Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.364853732Z [inf]      ...<4 lines>...
+2026-07-31T11:13:53.364856682Z [inf]      )
+2026-07-31T11:13:53.364859622Z [inf]      ^
+2026-07-31T11:13:53.364862582Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:13:53.364866292Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:13:53.364869562Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.364872582Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:13:53.364875712Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:13:53.364879802Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.364882562Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:13:53.365548555Z [inf]      return await handler(event, data)
+2026-07-31T11:13:53.365557946Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.365563726Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:13:53.365568636Z [inf]      return await wrapped()
+2026-07-31T11:13:53.365573866Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.365578776Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:13:53.365583535Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:13:53.365588885Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:13:53.365595465Z [inf]      return await bot(self)
+2026-07-31T11:13:53.365601125Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.365605775Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:13:53.365611165Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:13:53.365615635Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.365620125Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:13:53.365625195Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:13:53.365633095Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:13:53.365637855Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:13:53.365643295Z [inf]      response = self.check_response(
+2026-07-31T11:13:53.365648195Z [inf]          bot=bot,
+2026-07-31T11:13:53.365653015Z [inf]      ...<2 lines>...
+2026-07-31T11:13:53.365657935Z [inf]          content=raw_result,
+2026-07-31T11:13:53.366364317Z [inf]      )
+2026-07-31T11:13:53.366370077Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:13:53.366373407Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:13:53.366376457Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:13:55.449835857Z [inf]  INFO:aiogram.event:Update id=976932589 is handled. Duration 187 ms by bot id=8678096283
+2026-07-31T11:13:57.968171786Z [inf]  INFO:aiogram.event:Update id=976932590 is handled. Duration 178 ms by bot id=8678096283
+2026-07-31T11:13:58.117129005Z [inf]  INFO:aiogram.event:Update id=976932594 is handled. Duration 189 ms by bot id=8678096283
+2026-07-31T11:13:58.422376039Z [inf]  INFO:aiogram.event:Update id=976932592 is handled. Duration 484 ms by bot id=8678096283
+2026-07-31T11:13:58.439834112Z [inf]  INFO:aiogram.event:Update id=976932593 is handled. Duration 513 ms by bot id=8678096283
+2026-07-31T11:13:58.467516922Z [inf]  INFO:aiogram.event:Update id=976932597 is handled. Duration 229 ms by bot id=8678096283
+2026-07-31T11:13:58.584976510Z [inf]  INFO:aiogram.event:Update id=976932591 is handled. Duration 636 ms by bot id=8678096283
+2026-07-31T11:13:58.584986900Z [inf]  INFO:aiogram.event:Update id=976932595 is handled. Duration 496 ms by bot id=8678096283
+2026-07-31T11:13:58.941581723Z [inf]  INFO:aiogram.event:Update id=976932598 is handled. Duration 512 ms by bot id=8678096283
+2026-07-31T11:13:58.941719122Z [inf]  INFO:aiogram.event:Update id=976932596 is handled. Duration 473 ms by bot id=8678096283
+2026-07-31T11:13:59.961691858Z [inf]  INFO:aiogram.event:Update id=976932599 is handled. Duration 234 ms by bot id=8678096283
+2026-07-31T11:13:59.961695978Z [inf]  INFO:aiogram.event:Update id=976932601 is handled. Duration 305 ms by bot id=8678096283
+2026-07-31T11:13:59.961700268Z [inf]  INFO:aiogram.event:Update id=976932604 is handled. Duration 305 ms by bot id=8678096283
+2026-07-31T11:13:59.961702898Z [inf]  INFO:aiogram.event:Update id=976932600 is handled. Duration 306 ms by bot id=8678096283
+2026-07-31T11:13:59.961705708Z [inf]  INFO:aiogram.event:Update id=976932602 is handled. Duration 306 ms by bot id=8678096283
+2026-07-31T11:13:59.961708208Z [inf]  INFO:aiogram.event:Update id=976932605 is handled. Duration 329 ms by bot id=8678096283
+2026-07-31T11:13:59.961710998Z [inf]  INFO:aiogram.event:Update id=976932603 is handled. Duration 356 ms by bot id=8678096283
+2026-07-31T11:14:00.137743832Z [inf]  INFO:aiogram.event:Update id=976932607 is handled. Duration 342 ms by bot id=8678096283
+2026-07-31T11:14:00.137750032Z [inf]  INFO:aiogram.event:Update id=976932606 is handled. Duration 365 ms by bot id=8678096283
+2026-07-31T11:14:00.137755292Z [inf]  INFO:aiogram.event:Update id=976932608 is handled. Duration 241 ms by bot id=8678096283
+2026-07-31T11:14:00.164017905Z [inf]  INFO:aiogram.event:Update id=976932609 is handled. Duration 267 ms by bot id=8678096283
+2026-07-31T11:14:00.204727573Z [inf]  INFO:aiogram.event:Update id=976932610 is handled. Duration 226 ms by bot id=8678096283
+2026-07-31T11:14:03.317960738Z [inf]  INFO:aiogram.event:Update id=976932611 is not handled. Duration 351 ms by bot id=8678096283
+2026-07-31T11:14:03.317974598Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932611 by bot id=8678096283
+2026-07-31T11:14:03.317982928Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:14:03.317989228Z [inf]  Traceback (most recent call last):
+2026-07-31T11:14:03.317996138Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:14:03.318000778Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:14:03.318005668Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.318014348Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:14:03.318019128Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:14:03.318024538Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.318034468Z [inf]      ...<7 lines>...
+2026-07-31T11:14:03.318040117Z [inf]      )
+2026-07-31T11:14:03.318045117Z [inf]      ^
+2026-07-31T11:14:03.318049897Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:14:03.318054837Z [inf]      return await handler(event, data)
+2026-07-31T11:14:03.318059567Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.318065677Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:14:03.318070617Z [inf]      return await handler(event, data)
+2026-07-31T11:14:03.318075617Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.318079977Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:14:03.320528392Z [inf]      return await handler(event, data)
+2026-07-31T11:14:03.320538572Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.320543352Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:14:03.320548962Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:14:03.320553092Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.320556842Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:14:03.320574902Z [inf]      return await wrapped()
+2026-07-31T11:14:03.320579272Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.320583972Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:14:03.320587572Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:14:03.320591802Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.320595952Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:14:03.320600092Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:14:03.320603992Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.320607662Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:14:03.320611511Z [inf]      return await self._propagate_event(
+2026-07-31T11:14:03.320615331Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.320619751Z [inf]      ...<4 lines>...
+2026-07-31T11:14:03.320624141Z [inf]      )
+2026-07-31T11:14:03.320629211Z [inf]      ^
+2026-07-31T11:14:03.322169527Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:14:03.322175837Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:14:03.322184566Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.322187406Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:14:03.322195686Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.322201876Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:14:03.322205486Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:14:03.322214796Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:14:03.322219346Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.322223516Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:14:03.322228056Z [inf]      return await self._propagate_event(
+2026-07-31T11:14:03.322232946Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.322237546Z [inf]      ...<4 lines>...
+2026-07-31T11:14:03.322241716Z [inf]      )
+2026-07-31T11:14:03.322247006Z [inf]      ^
+2026-07-31T11:14:03.322250886Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:14:03.322255816Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:14:03.322260276Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.322263896Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:14:03.323295304Z [inf]      return await handler(event, data)
+2026-07-31T11:14:03.323298724Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.323301504Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:14:03.323304374Z [inf]      return await wrapped()
+2026-07-31T11:14:03.323307864Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.323310994Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:14:03.323314474Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:14:03.323317554Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:14:03.323320454Z [inf]      return await bot(self)
+2026-07-31T11:14:03.323323024Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.323325674Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:14:03.323328144Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:14:03.323330924Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.323333314Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:14:03.323336594Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:14:03.323339104Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:14:03.323341374Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:14:03.323344074Z [inf]      response = self.check_response(
+2026-07-31T11:14:03.323346914Z [inf]          bot=bot,
+2026-07-31T11:14:03.323349514Z [inf]      ...<2 lines>...
+2026-07-31T11:14:03.323353054Z [inf]          content=raw_result,
+2026-07-31T11:14:03.324758990Z [inf]      )
+2026-07-31T11:14:03.324763740Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:14:03.324766720Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:14:03.324770090Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:14:07.051129458Z [inf]  INFO:aiogram.event:Update id=976932612 is handled. Duration 176 ms by bot id=8678096283
+2026-07-31T11:14:07.738438177Z [inf]  INFO:aiogram.event:Update id=976932613 is handled. Duration 181 ms by bot id=8678096283
+2026-07-31T11:14:09.458228295Z [inf]  INFO:aiogram.event:Update id=976932614 is handled. Duration 174 ms by bot id=8678096283
+2026-07-31T11:14:39.649677258Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:14:39.649679618Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8678096283)
+2026-07-31T11:14:41.071491099Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:14:41.071496509Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.205567 seconds and try again... (tryings = 1, bot id = 8678096283)
+2026-07-31T11:14:47.055843167Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:14:47.055847837Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.602671 seconds and try again... (tryings = 2, bot id = 8678096283)
+2026-07-31T11:14:54.391495250Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:14:54.391499140Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.727018 seconds and try again... (tryings = 3, bot id = 8678096283)
+2026-07-31T11:15:03.428129833Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:15:03.428139343Z [inf]  WARNING:aiogram.dispatcher:Sleep for 2.165594 seconds and try again... (tryings = 4, bot id = 8678096283)
+2026-07-31T11:15:23.446353855Z [inf]  INFO:aiogram.dispatcher:Connection established (tryings = 5, bot id = 8678096283)
+2026-07-31T11:17:34.656839779Z [inf]  INFO:aiogram.event:Update id=976932615 is not handled. Duration 316 ms by bot id=8678096283
+2026-07-31T11:17:34.656842409Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932615 by bot id=8678096283
+2026-07-31T11:17:34.656845229Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:17:34.656847999Z [inf]  Traceback (most recent call last):
+2026-07-31T11:17:34.656850529Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:17:34.656865309Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:17:34.656867859Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.656871819Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:17:34.656875099Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:17:34.656877709Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.656880429Z [inf]      ...<7 lines>...
+2026-07-31T11:17:34.656883109Z [inf]      )
+2026-07-31T11:17:34.656886499Z [inf]      ^
+2026-07-31T11:17:34.656889269Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:17:34.656891909Z [inf]      return await handler(event, data)
+2026-07-31T11:17:34.656894499Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.656897269Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:17:34.656899889Z [inf]      return await handler(event, data)
+2026-07-31T11:17:34.656902539Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.656905079Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:17:34.657137086Z [inf]      return await handler(event, data)
+2026-07-31T11:17:34.657140376Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.657143476Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:17:34.657146526Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:17:34.657154616Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.657158176Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:17:34.657161056Z [inf]      return await wrapped()
+2026-07-31T11:17:34.657164136Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.657167926Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:17:34.657170886Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:17:34.657178726Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.657181716Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:17:34.657185156Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:17:34.657188096Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.657191386Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:17:34.657194646Z [inf]      return await self._propagate_event(
+2026-07-31T11:17:34.657198675Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.657201675Z [inf]      ...<4 lines>...
+2026-07-31T11:17:34.657204535Z [inf]      )
+2026-07-31T11:17:34.657207905Z [inf]      ^
+2026-07-31T11:17:34.658018547Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:17:34.658022487Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:17:34.658025037Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.658027797Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:17:34.658030417Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:17:34.658033117Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.658035927Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:17:34.658038387Z [inf]      return await self._propagate_event(
+2026-07-31T11:17:34.658041527Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.658043877Z [inf]      ...<4 lines>...
+2026-07-31T11:17:34.658046147Z [inf]      )
+2026-07-31T11:17:34.658048487Z [inf]      ^
+2026-07-31T11:17:34.658051067Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:17:34.658053567Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:17:34.658056037Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.658058787Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:17:34.658061627Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:17:34.658064587Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.658067447Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:17:34.659251684Z [inf]      return await handler(event, data)
+2026-07-31T11:17:34.659254564Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.659257674Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:17:34.659261444Z [inf]      return await wrapped()
+2026-07-31T11:17:34.659264154Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.659267063Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:17:34.659269833Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:17:34.659272373Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:17:34.659275113Z [inf]      return await bot(self)
+2026-07-31T11:17:34.659277633Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.659280423Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:17:34.659283183Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:17:34.659285683Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.659288373Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:17:34.659291553Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:17:34.659294113Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:34.659297293Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:17:34.659299883Z [inf]      response = self.check_response(
+2026-07-31T11:17:34.659302393Z [inf]          bot=bot,
+2026-07-31T11:17:34.659304913Z [inf]      ...<2 lines>...
+2026-07-31T11:17:34.659307524Z [inf]          content=raw_result,
+2026-07-31T11:17:34.660010796Z [inf]      )
+2026-07-31T11:17:34.660013526Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:17:34.660016106Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:17:34.660018596Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:17:34.660021306Z [inf]  INFO:aiogram.event:Update id=976932616 is handled. Duration 177 ms by bot id=8678096283
+2026-07-31T11:17:34.660023766Z [inf]  INFO:aiogram.event:Update id=976932617 is handled. Duration 482 ms by bot id=8678096283
+2026-07-31T11:17:35.839181624Z [inf]  INFO:aiogram.event:Update id=976932618 is not handled. Duration 326 ms by bot id=8678096283
+2026-07-31T11:17:35.839182734Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.839191614Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932618 by bot id=8678096283
+2026-07-31T11:17:35.839197804Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:17:35.839202654Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:17:35.839207124Z [inf]      return await handler(event, data)
+2026-07-31T11:17:35.839212894Z [inf]  Traceback (most recent call last):
+2026-07-31T11:17:35.839214104Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.839220574Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:17:35.839223104Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:17:35.839227883Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:17:35.839232043Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.839236013Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:17:35.839240253Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:17:35.839244833Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.839248403Z [inf]      ...<7 lines>...
+2026-07-31T11:17:35.839254633Z [inf]      )
+2026-07-31T11:17:35.839258473Z [inf]      ^
+2026-07-31T11:17:35.839262193Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:17:35.839266353Z [inf]      return await handler(event, data)
+2026-07-31T11:17:35.840501370Z [inf]      return await handler(event, data)
+2026-07-31T11:17:35.840506230Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.840509710Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:17:35.840513440Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:17:35.840517540Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.840521910Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:17:35.840525220Z [inf]      return await wrapped()
+2026-07-31T11:17:35.840528520Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.840531750Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:17:35.840535250Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:17:35.840538810Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.840542720Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:17:35.840546190Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:17:35.840549560Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.840553410Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:17:35.840557120Z [inf]      return await self._propagate_event(
+2026-07-31T11:17:35.840564340Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.840567949Z [inf]      ...<4 lines>...
+2026-07-31T11:17:35.840570699Z [inf]      )
+2026-07-31T11:17:35.840573519Z [inf]      ^
+2026-07-31T11:17:35.841967375Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:17:35.841973435Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:17:35.841980225Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:17:35.841984605Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.841988745Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:17:35.841994224Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:17:35.841998854Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.842003444Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:17:35.842007624Z [inf]      return await self._propagate_event(
+2026-07-31T11:17:35.842011274Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.842015274Z [inf]      ...<4 lines>...
+2026-07-31T11:17:35.842019594Z [inf]      )
+2026-07-31T11:17:35.842023574Z [inf]      ^
+2026-07-31T11:17:35.842028604Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:17:35.842032704Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:17:35.842036434Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.842040234Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:17:35.842044234Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:17:35.842047514Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.843117483Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:17:35.843124353Z [inf]      response = self.check_response(
+2026-07-31T11:17:35.843128663Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:17:35.843129803Z [inf]          bot=bot,
+2026-07-31T11:17:35.843135623Z [inf]      ...<2 lines>...
+2026-07-31T11:17:35.843136593Z [inf]      return await handler(event, data)
+2026-07-31T11:17:35.843141453Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.843142133Z [inf]          content=raw_result,
+2026-07-31T11:17:35.843148653Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.843151003Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:17:35.843158193Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:17:35.843163512Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:17:35.843165372Z [inf]      return await wrapped()
+2026-07-31T11:17:35.843172262Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.843174262Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.843178902Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:17:35.843182332Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:17:35.843185572Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:17:35.843188612Z [inf]      return await bot(self)
+2026-07-31T11:17:35.843192562Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:17:35.843196052Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:17:35.843697127Z [inf]      )
+2026-07-31T11:17:35.843700616Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:17:35.843704656Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:17:35.843707356Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:18:46.987654287Z [inf]  INFO:aiogram.event:Update id=976932619 is handled. Duration 182 ms by bot id=8678096283
+2026-07-31T11:18:46.987657867Z [inf]  INFO:aiogram.event:Update id=976932620 is not handled. Duration 333 ms by bot id=8678096283
+2026-07-31T11:18:46.987660827Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932620 by bot id=8678096283
+2026-07-31T11:18:46.987664556Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:18:46.987668446Z [inf]  Traceback (most recent call last):
+2026-07-31T11:18:46.987671816Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:18:46.987675576Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:18:46.987678726Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.987681876Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:18:46.987684866Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:18:46.987687626Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.987690516Z [inf]      ...<7 lines>...
+2026-07-31T11:18:46.987692946Z [inf]      )
+2026-07-31T11:18:46.987695896Z [inf]      ^
+2026-07-31T11:18:46.987698966Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:18:46.987701836Z [inf]      return await handler(event, data)
+2026-07-31T11:18:46.987704656Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.987707316Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:18:46.987710266Z [inf]      return await handler(event, data)
+2026-07-31T11:18:46.989636657Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.989639747Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:18:46.989642307Z [inf]      return await handler(event, data)
+2026-07-31T11:18:46.989644727Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.989647317Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:18:46.989649816Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:18:46.989652136Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.989654716Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:18:46.989657376Z [inf]      return await wrapped()
+2026-07-31T11:18:46.989660746Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.989663116Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:18:46.989665696Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:18:46.989668216Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.989671026Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:18:46.989673496Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:18:46.989676296Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.989678926Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:18:46.989681296Z [inf]      return await self._propagate_event(
+2026-07-31T11:18:46.993101620Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.993114770Z [inf]      ...<4 lines>...
+2026-07-31T11:18:46.993120860Z [inf]      )
+2026-07-31T11:18:46.993127120Z [inf]      ^
+2026-07-31T11:18:46.993132680Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:18:46.993138480Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:18:46.993143899Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.993151009Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:18:46.993157169Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:18:46.993163259Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.993168639Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:18:46.993173649Z [inf]      return await self._propagate_event(
+2026-07-31T11:18:46.993178099Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.993182449Z [inf]      ...<4 lines>...
+2026-07-31T11:18:46.993186709Z [inf]      )
+2026-07-31T11:18:46.993190529Z [inf]      ^
+2026-07-31T11:18:46.993194549Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:18:46.993198779Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:18:46.993202949Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.993206719Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:18:46.994323417Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.994331407Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:18:46.994358167Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:18:46.994381417Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.994385017Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:18:46.994388317Z [inf]      return await handler(event, data)
+2026-07-31T11:18:46.994392936Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.994396636Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:18:46.994400506Z [inf]      return await wrapped()
+2026-07-31T11:18:46.994404196Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.994409686Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:18:46.994413506Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:18:46.994427806Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:18:46.994431466Z [inf]      return await bot(self)
+2026-07-31T11:18:46.994435056Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.994440116Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:18:46.994443206Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:18:46.994447476Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:18:46.994451376Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:18:46.994454846Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:18:46.995970091Z [inf]      response = self.check_response(
+2026-07-31T11:18:46.995973711Z [inf]          bot=bot,
+2026-07-31T11:18:46.995976691Z [inf]      ...<2 lines>...
+2026-07-31T11:18:46.995979741Z [inf]          content=raw_result,
+2026-07-31T11:18:46.995982691Z [inf]      )
+2026-07-31T11:18:46.995985461Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:18:46.995988141Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:18:46.995990851Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:23:08.966556695Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:08.966561155Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8678096283)
+2026-07-31T11:23:09.460942617Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:09.460945987Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.334977 seconds and try again... (tryings = 1, bot id = 8678096283)
+2026-07-31T11:23:15.542044662Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:15.542053072Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.665317 seconds and try again... (tryings = 2, bot id = 8678096283)
+2026-07-31T11:23:22.496335408Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:22.496340218Z [inf]  WARNING:aiogram.dispatcher:Sleep for 2.054338 seconds and try again... (tryings = 3, bot id = 8678096283)
+2026-07-31T11:23:30.225556680Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:30.225560210Z [inf]  WARNING:aiogram.dispatcher:Sleep for 2.597232 seconds and try again... (tryings = 4, bot id = 8678096283)
+2026-07-31T11:23:38.848424271Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:38.848429221Z [inf]  WARNING:aiogram.dispatcher:Sleep for 3.266571 seconds and try again... (tryings = 5, bot id = 8678096283)
+2026-07-31T11:23:45.982922320Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:45.982926510Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.275785 seconds and try again... (tryings = 6, bot id = 8678096283)
+2026-07-31T11:23:55.214355883Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:23:55.214359223Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.922114 seconds and try again... (tryings = 7, bot id = 8678096283)
+2026-07-31T11:24:15.271358384Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:24:15.271362424Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.875286 seconds and try again... (tryings = 8, bot id = 8678096283)
+2026-07-31T11:24:16.561233024Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:24:16.561237154Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.871678 seconds and try again... (tryings = 9, bot id = 8678096283)
+2026-07-31T11:24:36.299761376Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:24:36.299764156Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.888955 seconds and try again... (tryings = 10, bot id = 8678096283)
+2026-07-31T11:24:37.362137443Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:24:37.362145973Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.022602 seconds and try again... (tryings = 11, bot id = 8678096283)
+2026-07-31T11:24:57.366587632Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:24:57.366592982Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.876813 seconds and try again... (tryings = 12, bot id = 8678096283)
+2026-07-31T11:24:58.418653258Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:24:58.418656888Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.920565 seconds and try again... (tryings = 13, bot id = 8678096283)
+2026-07-31T11:25:18.646377788Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:25:18.646380398Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.245059 seconds and try again... (tryings = 14, bot id = 8678096283)
+2026-07-31T11:25:19.350752281Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:25:19.350756131Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.994908 seconds and try again... (tryings = 15, bot id = 8678096283)
+2026-07-31T11:25:39.356182261Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:25:39.356187921Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.974416 seconds and try again... (tryings = 16, bot id = 8678096283)
+2026-07-31T11:25:40.193618773Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:25:40.193624353Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.167784 seconds and try again... (tryings = 17, bot id = 8678096283)
+2026-07-31T11:26:00.207527752Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:26:00.207532762Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.083600 seconds and try again... (tryings = 18, bot id = 8678096283)
+2026-07-31T11:26:01.539713451Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:26:01.539717061Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.043122 seconds and try again... (tryings = 19, bot id = 8678096283)
+2026-07-31T11:26:21.528264962Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:26:21.528271372Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.063769 seconds and try again... (tryings = 20, bot id = 8678096283)
+2026-07-31T11:26:22.367084035Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:26:22.367098214Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.861067 seconds and try again... (tryings = 21, bot id = 8678096283)
+2026-07-31T11:26:42.366272024Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:26:42.366281754Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.135854 seconds and try again... (tryings = 22, bot id = 8678096283)
+2026-07-31T11:26:43.580954513Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:26:43.580957193Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.909914 seconds and try again... (tryings = 23, bot id = 8678096283)
+2026-07-31T11:27:03.477094824Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:27:03.477099034Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.956435 seconds and try again... (tryings = 24, bot id = 8678096283)
+2026-07-31T11:27:05.592983116Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:27:05.592988056Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.907301 seconds and try again... (tryings = 25, bot id = 8678096283)
+2026-07-31T11:27:25.806899712Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:27:25.806904442Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.851585 seconds and try again... (tryings = 26, bot id = 8678096283)
+2026-07-31T11:27:26.750313404Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:27:26.750317023Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.929809 seconds and try again... (tryings = 27, bot id = 8678096283)
+2026-07-31T11:27:46.931198030Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:27:46.931204040Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.059526 seconds and try again... (tryings = 28, bot id = 8678096283)
+2026-07-31T11:27:48.028726987Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:27:48.028733707Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.979952 seconds and try again... (tryings = 29, bot id = 8678096283)
+2026-07-31T11:28:07.897535665Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:28:07.897541445Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.091877 seconds and try again... (tryings = 30, bot id = 8678096283)
+2026-07-31T11:28:07.897544655Z [inf]  INFO:aiogram.dispatcher:Connection established (tryings = 31, bot id = 8678096283)
+2026-07-31T11:28:07.897548435Z [inf]  INFO:aiogram.event:Update id=976932621 is not handled. Duration 681 ms by bot id=8678096283
+2026-07-31T11:28:07.897551975Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932621 by bot id=8678096283
+2026-07-31T11:28:07.897555575Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:28:07.897558775Z [inf]  Traceback (most recent call last):
+2026-07-31T11:28:07.897561775Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:28:07.897564795Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:28:07.897568005Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.897571165Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:28:07.897574745Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:28:07.897577735Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.897580955Z [inf]      ...<7 lines>...
+2026-07-31T11:28:07.897583905Z [inf]      )
+2026-07-31T11:28:07.897586535Z [inf]      ^
+2026-07-31T11:28:07.897589315Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:28:07.897592325Z [inf]      return await handler(event, data)
+2026-07-31T11:28:07.898481445Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.898494046Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:28:07.898501596Z [inf]      return await handler(event, data)
+2026-07-31T11:28:07.898507236Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.898512436Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:28:07.898518526Z [inf]      return await handler(event, data)
+2026-07-31T11:28:07.898523365Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.898528515Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:28:07.898533735Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:28:07.898539245Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.898544755Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:28:07.898549365Z [inf]      return await wrapped()
+2026-07-31T11:28:07.898553935Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.898558665Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:28:07.898563725Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:28:07.898568925Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.898575265Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:28:07.898580785Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:28:07.898586245Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.899332177Z [inf]      ...<4 lines>...
+2026-07-31T11:28:07.899336407Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:28:07.899343206Z [inf]      )
+2026-07-31T11:28:07.899346996Z [inf]      return await self._propagate_event(
+2026-07-31T11:28:07.899354046Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.899356426Z [inf]      ^
+2026-07-31T11:28:07.899360076Z [inf]      ...<4 lines>...
+2026-07-31T11:28:07.899365666Z [inf]      )
+2026-07-31T11:28:07.899368836Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:28:07.899372966Z [inf]      ^
+2026-07-31T11:28:07.899378406Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:28:07.899380896Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:28:07.899384956Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:28:07.899392546Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.899395406Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.899399576Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:28:07.899402946Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:28:07.899406196Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.899409446Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:28:07.899413666Z [inf]      return await self._propagate_event(
+2026-07-31T11:28:07.899416646Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.900456535Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:28:07.900463935Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:28:07.900469495Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.900475325Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:28:07.900480825Z [inf]      return await handler(event, data)
+2026-07-31T11:28:07.900485965Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.900490765Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:28:07.900498355Z [inf]      return await wrapped()
+2026-07-31T11:28:07.900503345Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.900508025Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:28:07.900512395Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:28:07.900517905Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:28:07.900522725Z [inf]      return await bot(self)
+2026-07-31T11:28:07.900527095Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.900533584Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:28:07.900538064Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:28:07.900543554Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.900548824Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:28:07.900553604Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:28:07.900557814Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:07.904286396Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:28:07.904291386Z [inf]      response = self.check_response(
+2026-07-31T11:28:07.904295656Z [inf]          bot=bot,
+2026-07-31T11:28:07.904298286Z [inf]      ...<2 lines>...
+2026-07-31T11:28:07.904314926Z [inf]          content=raw_result,
+2026-07-31T11:28:07.904317396Z [inf]      )
+2026-07-31T11:28:07.904321756Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:28:07.904325066Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:28:07.904328006Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:28:08.890686312Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:28:08.890690752Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8678096283)
+2026-07-31T11:28:08.949257163Z [inf]  INFO:aiogram.event:Update id=976932622 is not handled. Duration 341 ms by bot id=8678096283
+2026-07-31T11:28:08.949266793Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932622 by bot id=8678096283
+2026-07-31T11:28:08.949271303Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:28:08.949275253Z [inf]  Traceback (most recent call last):
+2026-07-31T11:28:08.949278573Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:28:08.949289223Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:28:08.949292913Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.949296463Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:28:08.949300093Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:28:08.949303922Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.949306942Z [inf]      ...<7 lines>...
+2026-07-31T11:28:08.949311692Z [inf]      )
+2026-07-31T11:28:08.949315292Z [inf]      ^
+2026-07-31T11:28:08.949318542Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:28:08.949321232Z [inf]      return await handler(event, data)
+2026-07-31T11:28:08.949324272Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.949327792Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:28:08.949331392Z [inf]      return await handler(event, data)
+2026-07-31T11:28:08.949334132Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.949337052Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:28:08.951367701Z [inf]      return await handler(event, data)
+2026-07-31T11:28:08.951373101Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.951373771Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.951376301Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:28:08.951379851Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:28:08.951380301Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:28:08.951382911Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.951384271Z [inf]      return await self._propagate_event(
+2026-07-31T11:28:08.951386221Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:28:08.951387281Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.951389551Z [inf]      return await wrapped()
+2026-07-31T11:28:08.951391411Z [inf]      ...<4 lines>...
+2026-07-31T11:28:08.951392601Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.951395681Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:28:08.951398591Z [inf]      )
+2026-07-31T11:28:08.951398841Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:28:08.951401570Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.951402770Z [inf]      ^
+2026-07-31T11:28:08.951404540Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:28:08.951407020Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:28:08.952522199Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:28:08.952534209Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:28:08.952540079Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.952545089Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:28:08.952550699Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:28:08.952555329Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.952560499Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:28:08.952565149Z [inf]      return await self._propagate_event(
+2026-07-31T11:28:08.952569879Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.952574539Z [inf]      ...<4 lines>...
+2026-07-31T11:28:08.952582079Z [inf]      )
+2026-07-31T11:28:08.952587638Z [inf]      ^
+2026-07-31T11:28:08.952592638Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:28:08.952597468Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:28:08.952603208Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.952608078Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:28:08.952613218Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:28:08.952619268Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.952624068Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:28:08.953827566Z [inf]      response = self.check_response(
+2026-07-31T11:28:08.953833036Z [inf]          bot=bot,
+2026-07-31T11:28:08.953837606Z [inf]      return await handler(event, data)
+2026-07-31T11:28:08.953838526Z [inf]      ...<2 lines>...
+2026-07-31T11:28:08.953841546Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.953845166Z [inf]          content=raw_result,
+2026-07-31T11:28:08.953848286Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.953855296Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:28:08.953858436Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:28:08.953865265Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:28:08.953871655Z [inf]      return await wrapped()
+2026-07-31T11:28:08.953872895Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.953882295Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.953883565Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:28:08.953889665Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:28:08.953894435Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:28:08.953898805Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:28:08.953904475Z [inf]      return await bot(self)
+2026-07-31T11:28:08.953910415Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:08.953915605Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:28:08.953919955Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:28:08.954867155Z [inf]      )
+2026-07-31T11:28:08.954870855Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:28:08.954874395Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:28:08.954876965Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:28:10.824052767Z [inf]  INFO:aiogram.dispatcher:Connection established (tryings = 1, bot id = 8678096283)
+2026-07-31T11:28:10.990084798Z [inf]  INFO:aiogram.event:Update id=976932623 is handled. Duration 183 ms by bot id=8678096283
+2026-07-31T11:28:13.883705058Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 320, in _process_update
+2026-07-31T11:28:13.883712857Z [inf]      response = await self.feed_update(bot, update, **kwargs)
+2026-07-31T11:28:13.883716777Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.883721847Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 164, in feed_update
+2026-07-31T11:28:13.883725447Z [inf]      response = await self.update.wrap_outer_middleware(
+2026-07-31T11:28:13.883728907Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.883731947Z [inf]      ...<7 lines>...
+2026-07-31T11:28:13.883734607Z [inf]      )
+2026-07-31T11:28:13.883737987Z [inf]      ^
+2026-07-31T11:28:13.883741137Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/error.py", line 27, in __call__
+2026-07-31T11:28:13.883743617Z [inf]      return await handler(event, data)
+2026-07-31T11:28:13.883745937Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.883748597Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/middlewares/user_context.py", line 58, in __call__
+2026-07-31T11:28:13.883751367Z [inf]      return await handler(event, data)
+2026-07-31T11:28:13.883753787Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.883756617Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/fsm/middleware.py", line 43, in __call__
+2026-07-31T11:28:13.883768037Z [inf]  INFO:aiogram.event:Update id=976932624 is not handled. Duration 315 ms by bot id=8678096283
+2026-07-31T11:28:13.883770477Z [inf]  ERROR:aiogram.event:Cause exception while process update id=976932624 by bot id=8678096283
+2026-07-31T11:28:13.883773137Z [inf]  TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:28:13.883775507Z [inf]  Traceback (most recent call last):
+2026-07-31T11:28:13.885026264Z [inf]      return await handler(event, data)
+2026-07-31T11:28:13.885030294Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.885033814Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:28:13.885033894Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:28:13.885038494Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:28:13.885039384Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:28:13.885042614Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.885043034Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.885046054Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:28:13.885047104Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:28:13.885048704Z [inf]      return await self._propagate_event(
+2026-07-31T11:28:13.885050784Z [inf]      return await wrapped()
+2026-07-31T11:28:13.885051514Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.885054504Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.885054514Z [inf]      ...<4 lines>...
+2026-07-31T11:28:13.885057804Z [inf]      )
+2026-07-31T11:28:13.885057974Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/dispatcher.py", line 283, in _listen_update
+2026-07-31T11:28:13.885060964Z [inf]      ^
+2026-07-31T11:28:13.885061004Z [inf]      return await self.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:28:13.885064244Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.886351440Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 187, in _propagate_event
+2026-07-31T11:28:13.886353700Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 195, in _propagate_event
+2026-07-31T11:28:13.886356920Z [inf]      response = await observer.trigger(event, **kwargs)
+2026-07-31T11:28:13.886357910Z [inf]      response = await router.propagate_event(update_type=update_type, event=event, **kwargs)
+2026-07-31T11:28:13.886361060Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.886361810Z [inf]                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.886365270Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 167, in propagate_event
+2026-07-31T11:28:13.886365510Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/telegram.py", line 126, in trigger
+2026-07-31T11:28:13.886369300Z [inf]      return await observer.wrap_outer_middleware(_wrapped, event=event, data=kwargs)
+2026-07-31T11:28:13.886369540Z [inf]      return await wrapped_inner(event, kwargs)
+2026-07-31T11:28:13.886373200Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.886375990Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.886377040Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/router.py", line 159, in _wrapped
+2026-07-31T11:28:13.886380260Z [inf]    File "/app/middlewares/forcesub.py", line 33, in __call__
+2026-07-31T11:28:13.886381040Z [inf]      return await self._propagate_event(
+2026-07-31T11:28:13.886384960Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.886389230Z [inf]      ...<4 lines>...
+2026-07-31T11:28:13.886392780Z [inf]      )
+2026-07-31T11:28:13.886396260Z [inf]      ^
+2026-07-31T11:28:13.887724896Z [inf]      return await handler(event, data)
+2026-07-31T11:28:13.887735796Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.887741176Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/dispatcher/event/handler.py", line 71, in call
+2026-07-31T11:28:13.887745186Z [inf]      return await wrapped()
+2026-07-31T11:28:13.887751346Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.887755826Z [inf]    File "/app/handlers/user.py", line 91, in cmd_start
+2026-07-31T11:28:13.887760576Z [inf]      await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+2026-07-31T11:28:13.887764236Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/methods/base.py", line 82, in emit
+2026-07-31T11:28:13.887768206Z [inf]      return await bot(self)
+2026-07-31T11:28:13.887772426Z [inf]             ^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.887776526Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/bot.py", line 514, in __call__
+2026-07-31T11:28:13.887780376Z [inf]      return await self.session(self, method, timeout=request_timeout)
+2026-07-31T11:28:13.887785076Z [inf]             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.887788886Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 259, in __call__
+2026-07-31T11:28:13.887792726Z [inf]      return cast(TelegramType, await middleware(bot, method))
+2026-07-31T11:28:13.887796545Z [inf]                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-31T11:28:13.887800295Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/aiohttp.py", line 177, in make_request
+2026-07-31T11:28:13.887804175Z [inf]      response = self.check_response(
+2026-07-31T11:28:13.887807735Z [inf]          bot=bot,
+2026-07-31T11:28:13.887811285Z [inf]      ...<2 lines>...
+2026-07-31T11:28:13.887815095Z [inf]          content=raw_result,
+2026-07-31T11:28:13.888719476Z [inf]      )
+2026-07-31T11:28:13.888724226Z [inf]    File "/app/.venv/lib/python3.13/site-packages/aiogram/client/session/base.py", line 121, in check_response
+2026-07-31T11:28:13.888728686Z [inf]      raise TelegramBadRequest(method=method, message=description)
+2026-07-31T11:28:13.888731856Z [inf]  aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: message can't be edited
+2026-07-31T11:28:18.269238906Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:28:18.269243076Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.000000 seconds and try again... (tryings = 0, bot id = 8678096283)
+2026-07-31T11:28:27.732981329Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:28:27.732986809Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.244654 seconds and try again... (tryings = 1, bot id = 8678096283)
+2026-07-31T11:28:47.525369586Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:28:47.525374745Z [inf]  WARNING:aiogram.dispatcher:Sleep for 1.612645 seconds and try again... (tryings = 2, bot id = 8678096283)
+2026-07-31T11:28:47.616247967Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:28:47.616253197Z [inf]  WARNING:aiogram.dispatcher:Sleep for 2.198489 seconds and try again... (tryings = 3, bot id = 8678096283)
+2026-07-31T11:29:07.611852478Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:29:07.611864648Z [inf]  WARNING:aiogram.dispatcher:Sleep for 2.768664 seconds and try again... (tryings = 4, bot id = 8678096283)
+2026-07-31T11:29:09.624409106Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:29:09.624414566Z [inf]  WARNING:aiogram.dispatcher:Sleep for 3.631224 seconds and try again... (tryings = 5, bot id = 8678096283)
+2026-07-31T11:29:18.624590596Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:29:18.624602466Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.758182 seconds and try again... (tryings = 6, bot id = 8678096283)
+2026-07-31T11:29:38.346894171Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:29:38.346897891Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.124837 seconds and try again... (tryings = 7, bot id = 8678096283)
+2026-07-31T11:29:39.499153792Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:29:39.499158002Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.930594 seconds and try again... (tryings = 8, bot id = 8678096283)
+2026-07-31T11:29:59.499012632Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:29:59.499022352Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.038750 seconds and try again... (tryings = 9, bot id = 8678096283)
+2026-07-31T11:30:00.300407968Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:30:00.300413378Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.117834 seconds and try again... (tryings = 10, bot id = 8678096283)
+2026-07-31T11:30:09.730101385Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:30:09.730106365Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.078470 seconds and try again... (tryings = 11, bot id = 8678096283)
+2026-07-31T11:30:29.771643103Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:30:29.771646123Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.132475 seconds and try again... (tryings = 12, bot id = 8678096283)
+2026-07-31T11:30:29.771648513Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:30:29.771651693Z [inf]  WARNING:aiogram.dispatcher:Sleep for 4.979603 seconds and try again... (tryings = 13, bot id = 8678096283)
+2026-07-31T11:30:37.974131813Z [inf]  ERROR:aiogram.dispatcher:Failed to fetch updates - TelegramConflictError: Telegram server says - Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-07-31T11:30:37.974140293Z [inf]  WARNING:aiogram.dispatcher:Sleep for 5.107325 seconds and try again... (tryings = 14, bot id = 8678096283)

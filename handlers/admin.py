@@ -378,27 +378,66 @@ async def send_reply_feedback(message: Message, bot: Bot, state: FSMContext):
 # --- Majburiy Obuna ---
 pass
 
+import json
+
+async def get_fs_channels():
+    from database import get_setting
+    val = await get_setting('force_sub_channels')
+    if val:
+        try:
+            return json.loads(val)
+        except:
+            return []
+    old_ch = await get_setting('force_sub_channel')
+    if old_ch:
+        old_link = await get_setting('force_sub_link')
+        old_title = await get_setting('force_sub_title')
+        return [{"id": old_ch, "title": old_title or old_ch, "url": old_link or ""}]
+    return []
+
+async def save_fs_channels(channels):
+    from database import set_setting
+    await set_setting('force_sub_channels', json.dumps(channels))
+
 @router.callback_query(F.data == "settings_forcesub_start")
 async def cb_settings_forcesub(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
-    current = await get_setting('force_sub_channel')
-    fs_text = current if current else "[O'rnatilmagan]"
-    text = f"📢 <b>Majburiy obuna sozlamalari</b>\n\nJoriy kanal: {fs_text}"
+    channels = await get_fs_channels()
+    if not channels:
+        text = "📢 <b>Majburiy obuna sozlamalari</b>\n\nHech qanday kanal o'rnatilmagan."
+    else:
+        text = "📢 <b>Majburiy obuna sozlamalari</b>\n\nJoriy kanallar:\n"
+        for i, ch in enumerate(channels, 1):
+            text += f"{i}. {ch.get('title', ch['id'])} (ID: {ch['id']})\n"
+            
     from keyboards.inline import get_forcesub_settings_keyboard
-    await callback.message.edit_text(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="HTML")
+    await callback.message.edit_text(text, reply_markup=get_forcesub_settings_keyboard(channels), parse_mode="HTML")
     
-@router.callback_query(F.data == "forcesub_edit")
-async def cb_forcesub_edit(callback: CallbackQuery, state: FSMContext):
+@router.callback_query(F.data == "forcesub_add")
+async def cb_forcesub_add(callback: CallbackQuery, state: FSMContext):
     if not await is_admin(callback.from_user.id): return
     await callback.message.answer("Yangi kanal @username yoki IDsini kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(SetForceSub.channel_username)
     
-@router.callback_query(F.data == "forcesub_delete")
+@router.callback_query(F.data.startswith("forcesub_del_"))
 async def cb_forcesub_delete(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
-    await set_setting('force_sub_channel', '')
-    await callback.answer("Majburiy obuna o'chirildi!", show_alert=True)
-    await callback.message.delete()
+    idx = int(callback.data.split("_")[2])
+    channels = await get_fs_channels()
+    if 0 <= idx < len(channels):
+        channels.pop(idx)
+        await save_fs_channels(channels)
+        await callback.answer("Kanal o'chirildi!", show_alert=True)
+    
+    if not channels:
+        text = "📢 <b>Majburiy obuna sozlamalari</b>\n\nHech qanday kanal o'rnatilmagan."
+    else:
+        text = "📢 <b>Majburiy obuna sozlamalari</b>\n\nJoriy kanallar:\n"
+        for i, ch in enumerate(channels, 1):
+            text += f"{i}. {ch.get('title', ch['id'])} (ID: {ch['id']})\n"
+            
+    from keyboards.inline import get_forcesub_settings_keyboard
+    await callback.message.edit_text(text, reply_markup=get_forcesub_settings_keyboard(channels), parse_mode="HTML")
 
 @router.message(SetForceSub.channel_username)
 async def force_sub_save(message: Message, state: FSMContext, bot: Bot):
@@ -414,17 +453,26 @@ async def force_sub_save(message: Message, state: FSMContext, bot: Bot):
         if not invite_link:
             invite_link = await bot.export_chat_invite_link(chat.id)
             
-        await set_setting('force_sub_channel', str(chat.id))
-        await set_setting('force_sub_link', invite_link)
-        await set_setting('force_sub_title', chat.title)
+        channels = await get_fs_channels()
+        # Avoid duplicates
+        if not any(str(ch['id']) == str(chat.id) for ch in channels):
+            channels.append({
+                "id": str(chat.id),
+                "title": chat.title,
+                "url": invite_link
+            })
+            await save_fs_channels(channels)
         
         from aiogram.types import ReplyKeyboardRemove
         msg = await message.answer("Tekshirilmoqda...", reply_markup=ReplyKeyboardRemove())
         await msg.delete()
         
+        text = "📢 <b>Majburiy obuna sozlamalari</b>\n\nJoriy kanallar:\n"
+        for i, ch in enumerate(channels, 1):
+            text += f"{i}. {ch.get('title', ch['id'])} (ID: {ch['id']})\n"
+            
         from keyboards.inline import get_forcesub_settings_keyboard
-        text = f"📢 <b>Majburiy obuna sozlamalari</b>\n\nJoriy kanal: {chat.title}\nID: {chat.id}"
-        await message.answer(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="HTML")
+        await message.answer(text, reply_markup=get_forcesub_settings_keyboard(channels), parse_mode="HTML")
         await state.clear()
     except Exception as e:
         await message.answer(f"⚠️ Xatolik yuz berdi: kanal topilmadi yoki bot u yerda admin emas. Kiritilgan kanal: {channel}\n\nQayta urinib ko'ring yoki /cancel bosing.", reply_markup=get_cancel_menu())

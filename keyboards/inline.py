@@ -231,18 +231,17 @@ def get_settings_dashboard_keyboard():
         ]
     )
 
-def get_forcesub_settings_keyboard():
-    return InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text="✏️ O'zgartirish", callback_data="forcesub_edit"),
-                InlineKeyboardButton(text="🗑 O'chirish", callback_data="forcesub_delete")
-            ],
-            [
-                InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")
-            ]
-        ]
-    )
+def get_forcesub_settings_keyboard(channels: list):
+    inline_keyboard = []
+    
+    for idx, ch in enumerate(channels):
+        title = ch.get('title', f"Kanal {idx+1}")
+        inline_keyboard.append([InlineKeyboardButton(text=f"🗑 {title}", callback_data=f"forcesub_del_{idx}")])
+        
+    inline_keyboard.append([InlineKeyboardButton(text="➕ Kanal qo'shish", callback_data="forcesub_add")])
+    inline_keyboard.append([InlineKeyboardButton(text="❌ Yopish", callback_data="close_inline_menu")])
+    
+    return InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
 
 def get_footer_settings_keyboard():
     return InlineKeyboardMarkup(

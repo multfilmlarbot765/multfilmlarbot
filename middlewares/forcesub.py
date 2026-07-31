@@ -1,4 +1,5 @@
 from typing import Any, Awaitable, Callable, Dict
+import json
 from aiogram import BaseMiddleware
 from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -33,29 +34,49 @@ class ForceSubMiddleware(BaseMiddleware):
             return await handler(event, data)
             
         # 2. Fetch channel config
-        channel_id_str = await get_setting('force_sub_channel')
-        if not channel_id_str:
+        channels_json = await get_setting('force_sub_channels')
+        channels = []
+        if channels_json:
+            try:
+                channels = json.loads(channels_json)
+            except Exception:
+                pass
+        else:
+            old_ch = await get_setting('force_sub_channel')
+            if old_ch:
+                old_link = await get_setting('force_sub_link')
+                old_title = await get_setting('force_sub_title')
+                channels = [{"id": old_ch, "title": old_title or old_ch, "url": old_link or "https://t.me/telegram"}]
+                
+        if not channels:
             return await handler(event, data)
-            
-        invite_link = await get_setting('force_sub_link')
-        if not invite_link:
-            invite_link = "https://t.me/telegram"
             
         bot = data['bot']
         
         try:
             # 3. Check membership
-            member = await bot.get_chat_member(chat_id=channel_id_str, user_id=user.id)
-            if member.status in ['left', 'kicked']:
+            must_join = []
+            for ch in channels:
+                try:
+                    member = await bot.get_chat_member(chat_id=ch['id'], user_id=user.id)
+                    if member.status in ['left', 'kicked']:
+                        must_join.append(ch)
+                except Exception as e:
+                    print(f"Force sub check error for {ch['id']}: {e}")
+                    # If error (e.g. bot not admin), we skip checking this channel (fail open)
+                    pass
+            
+            if must_join:
                 # Block handler and send force sub prompt
-                text = "⚠️ Botdan foydalanish uchun quyidagi kanalimizga obuna bo'lishingiz shart!"
+                text = "⚠️ Botdan foydalanish uchun quyidagi kanal(lar)ga obuna bo'lishingiz shart!"
                 
-                kb = InlineKeyboardMarkup(
-                    inline_keyboard=[
-                        [InlineKeyboardButton(text="📢 Kanalga obuna bo'lish", url=invite_link)],
-                        [InlineKeyboardButton(text="✅ Obunani tekshirish", callback_data="check_forcesub")]
-                    ]
-                )
+                inline_keyboard = []
+                for ch in must_join:
+                    inline_keyboard.append([InlineKeyboardButton(text=f"📢 {ch.get('title', 'Kanal')}", url=ch.get('url', 'https://t.me/telegram'))])
+                
+                inline_keyboard.append([InlineKeyboardButton(text="✅ Obunani tekshirish", callback_data="check_forcesub")])
+                
+                kb = InlineKeyboardMarkup(inline_keyboard=inline_keyboard)
                 
                 if is_callback:
                     await event.message.answer(text, reply_markup=kb)
@@ -67,8 +88,7 @@ class ForceSubMiddleware(BaseMiddleware):
                 return
                 
         except Exception as e:
-            print(f"Force sub check error: {e}")
-            # On API error (e.g., bot lost admin), fail open
+            print(f"Force sub general error: {e}")
             return await handler(event, data)
             
         # If member or restricted etc (not left/kicked)
