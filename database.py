@@ -221,7 +221,7 @@ async def get_setting(key: str):
 
 async def set_setting(key: str, value: str):
     async with aiosqlite.connect(DB_NAME) as db:
-        await db.execute("UPDATE settings SET value = ? WHERE key = ?", (value, key))
+        await db.execute("INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)", (key, value))
         await db.commit()
 
 # --- Feedback ---
