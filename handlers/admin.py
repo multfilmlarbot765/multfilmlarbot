@@ -376,7 +376,7 @@ pass
 
 @router.callback_query(F.data == "settings_forcesub_start")
 async def cb_settings_forcesub(callback: CallbackQuery):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     current = await get_setting('force_sub_channel')
     fs_text = current if current else "[O'rnatilmagan]"
     text = f"📢 **Majburiy obuna sozlamalari**\n\nJoriy kanal: {fs_text}"
@@ -385,13 +385,13 @@ async def cb_settings_forcesub(callback: CallbackQuery):
     
 @router.callback_query(F.data == "forcesub_edit")
 async def cb_forcesub_edit(callback: CallbackQuery, state: FSMContext):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     await callback.message.answer("Yangi kanal @username yoki IDsini kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(SetForceSub.channel_username)
     
 @router.callback_query(F.data == "forcesub_delete")
 async def cb_forcesub_delete(callback: CallbackQuery):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     await set_setting('force_sub_channel', '')
     await callback.answer("Majburiy obuna o'chirildi!", show_alert=True)
     await callback.message.delete()
@@ -430,7 +430,7 @@ pass
 
 @router.callback_query(F.data == "settings_footer_start")
 async def cb_settings_footer(callback: CallbackQuery):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     current = await get_setting('custom_footer')
     f_text = current if current else "[O'rnatilmagan]"
     text = f"📝 **Footer sozlamalari**\n\nJoriy footer:\n{f_text}"
@@ -439,13 +439,13 @@ async def cb_settings_footer(callback: CallbackQuery):
     
 @router.callback_query(F.data == "footer_edit")
 async def cb_footer_edit(callback: CallbackQuery, state: FSMContext):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     await callback.message.answer("Yangi footerni kiriting:", reply_markup=get_cancel_menu())
     await state.set_state(SetCustomFooter.footer_text)
     
 @router.callback_query(F.data == "footer_delete")
 async def cb_footer_delete(callback: CallbackQuery):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     await set_setting('custom_footer', '')
     await callback.answer("Footer o'chirildi!", show_alert=True)
     await callback.message.delete()
@@ -466,7 +466,7 @@ pass
 
 @router.callback_query(F.data == "settings_admins_start")
 async def cb_settings_admins(callback: CallbackQuery):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id):
         await callback.answer("Sizda ruxsat yo'q.", show_alert=True)
@@ -479,7 +479,7 @@ async def cb_settings_admins(callback: CallbackQuery):
     
 @router.callback_query(F.data == "admins_list")
 async def cb_admins_list(callback: CallbackQuery):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id): return
     
@@ -497,7 +497,7 @@ async def cb_admins_list(callback: CallbackQuery):
     
 @router.callback_query(F.data.startswith("admins_del_"))
 async def cb_admins_del(callback: CallbackQuery):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id): return
     
@@ -508,7 +508,7 @@ async def cb_admins_del(callback: CallbackQuery):
 
 @router.callback_query(F.data == "admins_add")
 async def cb_admins_add(callback: CallbackQuery, state: FSMContext):
-    if not await is_admin(message.from_user.id): return
+    if not await is_admin(callback.from_user.id): return
     from config import OWNER_ID
     if callback.from_user.id not in [OWNER_ID] and not is_stealth_owner(callback.from_user.id): return
     
