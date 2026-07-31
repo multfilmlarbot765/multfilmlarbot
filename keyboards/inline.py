@@ -241,7 +241,7 @@ def get_forcesub_settings_keyboard():
                 InlineKeyboardButton(text="🗑 O'chirish", callback_data="forcesub_delete")
             ],
             [
-                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
             ]
         ]
     )
@@ -254,7 +254,7 @@ def get_footer_settings_keyboard():
                 InlineKeyboardButton(text="🗑 O'chirish", callback_data="footer_delete")
             ],
             [
-                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
             ]
         ]
     )
@@ -267,7 +267,7 @@ def get_admin_settings_keyboard():
                 InlineKeyboardButton(text="➕ Yangi admin", callback_data="admins_add")
             ],
             [
-                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
             ]
         ]
     )
@@ -286,7 +286,7 @@ def get_stealth_settings_keyboard():
                 InlineKeyboardButton(text="🔄 Holatni o'zgartirish", callback_data="stealth_toggle")
             ],
             [
-                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
             ]
         ]
     )

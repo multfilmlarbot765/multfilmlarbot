@@ -17,7 +17,8 @@ def get_admin_menu():
             [KeyboardButton(text="✏️ Medialarni tahrirlash")],
             [KeyboardButton(text="📢 Xabar yuborish (Broadcast)")],
             [KeyboardButton(text="📋 Baholar va Xabarlar boshqaruv paneli")],
-            [KeyboardButton(text="⚙️ Tizim Sozlamalari")],
+            [KeyboardButton(text="⚙️ Majburiy obuna sozlash"), KeyboardButton(text="📝 Footer sozlash")],
+            [KeyboardButton(text="👑 Adminlar boshqaruvi"), KeyboardButton(text="⚙️ Baza Sozlamalari")],
             [KeyboardButton(text="🔙 Asosiy menyu")]
         ],
         resize_keyboard=True

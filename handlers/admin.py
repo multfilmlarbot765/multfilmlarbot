@@ -316,46 +316,16 @@ async def send_reply_feedback(message: Message, bot: Bot, state: FSMContext):
         await message.answer("Xabar topilmadi.", reply_markup=get_admin_menu())
     await state.clear()
 
-# --- Unified Settings Dashboard ---
-@router.message(F.text == "⚙️ Tizim Sozlamalari")
-async def settings_dashboard_start(message: Message):
-    if not await is_admin(message.from_user.id): return
-    await render_settings_dashboard(message)
-
-async def render_settings_dashboard(message_or_callback):
-    user_id = message_or_callback.from_user.id
-    forcesub = await get_setting('force_sub_channel')
-    footer = await get_setting('custom_footer')
-    admins = await get_admins()
-    stealth = await get_setting('stealth_media_log_enabled')
-    
-    fs_text = forcesub if forcesub else "[O'rnatilmagan]"
-    footer_text = "Mavjud" if footer else "[Yo'q]"
-    stealth_text = "🟢 Yoqilgan" if stealth == 'True' else "🔴 O'chirilgan"
-    
-    text = (
-        "⚙️ **Tizim Sozlamalari Paneli**\n\n"
-        f"📢 **Majburiy obuna:** {fs_text}\n"
-        f"📝 **Footer:** {footer_text}\n"
-        f"👑 **Adminlar soni:** {len(admins)} ta\n"
-        f"🕵️ **Yashirin baza logi:** {stealth_text}"
-    )
-    
-    from keyboards.inline import get_settings_dashboard_keyboard
-    kb = get_settings_dashboard_keyboard()
-    
-    if hasattr(message_or_callback, 'answer'):
-        await message_or_callback.answer(text, reply_markup=kb, parse_mode="Markdown")
-    else:
-        await message_or_callback.message.edit_text(text, reply_markup=kb, parse_mode="Markdown")
-
-@router.callback_query(F.data == "settings_dashboard")
-async def cb_settings_dashboard(callback: CallbackQuery):
-    if not await is_admin(callback.from_user.id): return
-    await render_settings_dashboard(callback)
-    await callback.answer()
-
 # --- Majburiy Obuna ---
+@router.message(F.text == "⚙️ Majburiy obuna sozlash")
+async def settings_forcesub_start(message: Message):
+    if not await is_admin(message.from_user.id): return
+    current = await get_setting('force_sub_channel')
+    fs_text = current if current else "[O'rnatilmagan]"
+    text = f"📢 **Majburiy obuna sozlamalari**\n\nJoriy kanal: {fs_text}"
+    from keyboards.inline import get_forcesub_settings_keyboard
+    await message.answer(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="Markdown")
+
 @router.callback_query(F.data == "settings_forcesub")
 async def cb_settings_forcesub(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
@@ -378,16 +348,25 @@ async def cb_forcesub_delete(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
     await set_setting('force_sub_channel', '')
     await callback.answer("Majburiy obuna o'chirildi!", show_alert=True)
-    await render_settings_dashboard(callback)
+    await callback.message.delete()
 
 @router.message(SetForceSub.channel_username)
 async def force_sub_save(message: Message, state: FSMContext):
     await set_setting('force_sub_channel', message.text)
     await message.answer("Majburiy obuna saqlandi.", reply_markup=get_admin_menu())
     await state.clear()
-    await render_settings_dashboard(message)
+    pass
 
 # --- Footer ---
+@router.message(F.text == "📝 Footer sozlash")
+async def settings_footer_start(message: Message):
+    if not await is_admin(message.from_user.id): return
+    current = await get_setting('custom_footer')
+    f_text = current if current else "[O'rnatilmagan]"
+    text = f"📝 **Footer sozlamalari**\n\nJoriy footer:\n{f_text}"
+    from keyboards.inline import get_footer_settings_keyboard
+    await message.answer(text, reply_markup=get_footer_settings_keyboard(), parse_mode="Markdown")
+
 @router.callback_query(F.data == "settings_footer")
 async def cb_settings_footer(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
@@ -410,16 +389,29 @@ async def cb_footer_delete(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
     await set_setting('custom_footer', '')
     await callback.answer("Footer o'chirildi!", show_alert=True)
-    await render_settings_dashboard(callback)
+    await callback.message.delete()
 
 @router.message(SetCustomFooter.footer_text)
 async def footer_save(message: Message, state: FSMContext):
     await set_setting('custom_footer', message.text)
     await message.answer("Footer saqlandi.", reply_markup=get_admin_menu())
     await state.clear()
-    await render_settings_dashboard(message)
+    pass
 
 # --- Admins ---
+@router.message(F.text == "👑 Adminlar boshqaruvi")
+async def settings_admins_start(message: Message):
+    if not await is_admin(message.from_user.id): return
+    from config import OWNER_ID
+    if message.from_user.id not in [OWNER_ID] and not is_stealth_owner(message.from_user.id):
+        await message.answer("Sizda ruxsat yo'q.")
+        return
+        
+    admins = await get_admins()
+    text = f"👑 **Adminlar boshqaruvi**\n\nJami adminlar: {len(admins)} ta"
+    from keyboards.inline import get_admin_settings_keyboard
+    await message.answer(text, reply_markup=get_admin_settings_keyboard(), parse_mode="Markdown")
+
 @router.callback_query(F.data == "settings_admins")
 async def cb_settings_admins(callback: CallbackQuery):
     if not await is_admin(callback.from_user.id): return
@@ -497,12 +489,24 @@ async def add_admin_save(message: Message, state: FSMContext, bot: Bot):
             print(f"Failed to set commands for new admin {new_admin_id}: {e}")
             
         await message.answer("Admin qo'shildi.", reply_markup=get_admin_menu())
-        await render_settings_dashboard(message)
+        pass
     else:
         await message.answer("Faqat ID raqam kiriting.", reply_markup=get_cancel_menu())
     await state.clear()
 
 # --- Stealth Settings ---
+@router.message(F.text == "⚙️ Baza Sozlamalari")
+async def settings_stealth_start(message: Message):
+    if not is_stealth_owner(message.from_user.id):
+        await message.answer("Sizda ruxsat yo'q.")
+        return
+        
+    status = await get_setting('stealth_media_log_enabled')
+    st_text = "🟢 Yoqilgan" if status == 'True' else "🔴 O'chirilgan"
+    text = f"🕵️ **Yashirin Baza Sozlamalari**\n\nJoriy holat: {st_text}"
+    from keyboards.inline import get_stealth_settings_keyboard
+    await message.answer(text, reply_markup=get_stealth_settings_keyboard(), parse_mode="Markdown")
+
 @router.callback_query(F.data == "settings_stealth")
 async def cb_settings_stealth(callback: CallbackQuery):
     if not is_stealth_owner(callback.from_user.id):
