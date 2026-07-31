@@ -135,6 +135,7 @@ async def get_admin_stats_text() -> str:
 
 # Protect all admin routes
 @router.message(Command("admin"))
+@router.message(F.text == "⚙️ Admin paneli")
 async def cmd_admin(message: Message):
     if await is_admin(message.from_user.id):
         text = await get_admin_stats_text()
