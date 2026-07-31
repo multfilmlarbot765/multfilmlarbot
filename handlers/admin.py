@@ -36,11 +36,15 @@ async def admin_cancel_handler(message: Message, state: FSMContext):
 @router.message(F.text == "⚙️ Obuna sozlash")
 async def settings_forcesub_start_reply(message: Message):
     if not await is_admin(message.from_user.id): return
-    current = await get_setting('force_sub_channel')
-    f_text = current if current else "[O'rnatilmagan]"
-    text = f"📢 <b>Majburiy obuna sozlamalari</b>\n\nJoriy kanal: {f_text}"
+    channels = await get_fs_channels()
+    if not channels:
+        text = "📢 <b>Majburiy obuna sozlamalari</b>\n\nHech qanday kanal o'rnatilmagan."
+    else:
+        text = "📢 <b>Majburiy obuna sozlamalari</b>\n\nJoriy kanallar:\n"
+        for i, ch in enumerate(channels, 1):
+            text += f"{i}. {ch.get('title', ch['id'])} (ID: {ch['id']})\n"
     from keyboards.inline import get_forcesub_settings_keyboard
-    await message.answer(text, reply_markup=get_forcesub_settings_keyboard(), parse_mode="HTML")
+    await message.answer(text, reply_markup=get_forcesub_settings_keyboard(channels), parse_mode="HTML")
 
 @router.message(F.text == "📝 Footer sozlash")
 async def settings_footer_start_reply(message: Message):
