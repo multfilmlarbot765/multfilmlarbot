@@ -247,9 +247,7 @@ async def cb_check_forcesub(callback: CallbackQuery, bot: Bot, state: FSMContext
             # Send greeting
             admin_status = await is_admin(callback.from_user.id)
             channel_link = await get_setting('main_channel_url')
-            greeting = f"👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.
-
-✍🏻 Multfilm kodini yuboring."
+            greeting = f"👋 Assalomu alaykum {callback.from_user.full_name} botimizga xush kelibsiz.\\n\\n✍🏻 Multfilm kodini yuboring."
             await callback.message.answer(greeting, reply_markup=get_start_menu(channel_link))
         else:
             # Not subscribed
