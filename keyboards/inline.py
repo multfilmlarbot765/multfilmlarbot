@@ -215,3 +215,78 @@ def get_delete_confirm_keyboard(content_id: int, return_page: int, ctype: str):
             ]
         ]
     )
+
+def get_settings_dashboard_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="📢 Majburiy obuna", callback_data="settings_forcesub"),
+                InlineKeyboardButton(text="📝 Footer", callback_data="settings_footer")
+            ],
+            [
+                InlineKeyboardButton(text="👑 Adminlar", callback_data="settings_admins"),
+                InlineKeyboardButton(text="🕵️ Baza logi", callback_data="settings_stealth")
+            ],
+            [
+                InlineKeyboardButton(text="❌ Yopish", callback_data="delete_message")
+            ]
+        ]
+    )
+
+def get_forcesub_settings_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✏️ O'zgartirish", callback_data="forcesub_edit"),
+                InlineKeyboardButton(text="🗑 O'chirish", callback_data="forcesub_delete")
+            ],
+            [
+                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+            ]
+        ]
+    )
+
+def get_footer_settings_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✏️ O'zgartirish", callback_data="footer_edit"),
+                InlineKeyboardButton(text="🗑 O'chirish", callback_data="footer_delete")
+            ],
+            [
+                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+            ]
+        ]
+    )
+
+def get_admin_settings_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="👥 Adminlar ro'yxati", callback_data="admins_list"),
+                InlineKeyboardButton(text="➕ Yangi admin", callback_data="admins_add")
+            ],
+            [
+                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+            ]
+        ]
+    )
+
+def get_admin_list_keyboard(admins):
+    keyboard = []
+    for adm in admins:
+        keyboard.append([InlineKeyboardButton(text=f"❌ O'chirish: {adm}", callback_data=f"admins_del_{adm}")])
+    keyboard.append([InlineKeyboardButton(text="🔙 Orqaga", callback_data="settings_admins")])
+    return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+def get_stealth_settings_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🔄 Holatni o'zgartirish", callback_data="stealth_toggle")
+            ],
+            [
+                InlineKeyboardButton(text="🔙 Sozlamalarga qaytish", callback_data="settings_dashboard")
+            ]
+        ]
+    )
