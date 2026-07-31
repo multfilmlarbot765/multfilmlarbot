@@ -85,16 +85,18 @@ async def cmd_start(message: Message, bot: Bot, state: FSMContext):
         greeting = f"👋 Assalomu alaykum {user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
         
         if admin_status:
-            # Send greeting with Reply Keyboard to force the bottom keyboard to appear
-            msg = await message.answer(greeting, reply_markup=get_user_main_menu(True))
-            # Immediately edit the message to attach the Inline Keyboard
-            await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+            # We must leave a persistent message so Telegram doesn't hide the Reply Keyboard
+            await message.answer("👑 Admin paneli faol.", reply_markup=get_user_main_menu(True))
         else:
             # For normal users, remove the Reply Keyboard invisibly
             msg = await message.answer("Yuklanmoqda...", reply_markup=get_user_main_menu(False))
-            await msg.delete()
-            # Send greeting with Inline Keyboard
-            await message.answer(greeting, reply_markup=get_start_menu(channel_link))
+            try:
+                await msg.delete()
+            except Exception:
+                pass
+                
+        # Send greeting with Inline Keyboard
+        await message.answer(greeting, reply_markup=get_start_menu(channel_link))
 
 @router.callback_query(F.data == "start_random")
 async def cb_random(callback: CallbackQuery, bot: Bot):
