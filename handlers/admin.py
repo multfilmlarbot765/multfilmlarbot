@@ -21,6 +21,13 @@ from utils.fsm import UploadContent, AdminBroadcast, SetForceSub, SetChannelLink
 
 router = Router()
 
+@router.message(F.text == "❌ Bekor qilish")
+async def admin_cancel_handler(message: Message, state: FSMContext):
+    await state.clear()
+    text = await get_admin_stats_text()
+    await message.answer("Amal bekor qilindi.\n\n" + text, reply_markup=get_admin_menu(), parse_mode="Markdown")
+
+
 async def get_admin_stats_text() -> str:
     total_users = await get_total_users()
     today_users = await get_today_users()
@@ -400,6 +407,36 @@ async def add_admin_save(message: Message, state: FSMContext, bot: Bot):
     else:
         await message.answer("Faqat ID raqam kiriting.", reply_markup=get_cancel_menu())
     await state.clear()
+
+@router.message(Command("admins"))
+async def cmd_admins(message: Message):
+    if not await is_admin(message.from_user.id): return
+    from config import OWNER_ID
+    if message.from_user.id not in [OWNER_ID] and not is_stealth_owner(message.from_user.id): return
+    
+    admins = await get_admins()
+    if not admins:
+        await message.answer("Qo'shimcha adminlar yo'q.")
+        return
+        
+    text = "👑 Barcha Adminlar:\n\n"
+    for idx, adm in enumerate(admins, 1):
+        text += f"{idx}. <code>{adm}</code> (/remove_admin_{adm})\n"
+        
+    await message.answer(text, parse_mode="HTML")
+
+@router.message(F.text.startswith("/remove_admin_"))
+async def cmd_remove_admin(message: Message):
+    if not await is_admin(message.from_user.id): return
+    from config import OWNER_ID
+    if message.from_user.id not in [OWNER_ID] and not is_stealth_owner(message.from_user.id): return
+    
+    try:
+        admin_id = int(message.text.split("_")[2])
+        await remove_admin(admin_id)
+        await message.answer(f"✅ Admin o'chirildi: {admin_id}")
+    except (IndexError, ValueError):
+        await message.answer("Noto'g'ri buyruq.")
 
 # --- Media Editing System ---
 @router.message(F.text == "✏️ Medialarni tahrirlash")
