@@ -1,4 +1,0 @@
-... rd(), parse_mode="Markdown")
-        await state.clear()
-    else:
-        await message.answer("⚠️ Havola noto'g'ri. Iltimos http:// yoki https:// bilan boshlanuvchi havola kiriting.", reply_markup=get_cancel_menu() ...
