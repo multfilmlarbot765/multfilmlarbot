@@ -18,7 +18,7 @@ class SetForceSub(StatesGroup):
     channel_username = State()
 
 class SetChannelLink(StatesGroup):
-    channel_link = State()
+    link = State()
 
 class SetCustomFooter(StatesGroup):
     footer_text = State()
@@ -40,5 +40,4 @@ class MediaEdit(StatesGroup):
     edit_quality = State()
     edit_genre = State()
 
-class SetMainChannelLink(StatesGroup):
-    link = State()
+
