@@ -81,18 +81,20 @@ async def cmd_start(message: Message, bot: Bot, state: FSMContext):
         await send_content(message, bot, int(args[1]))
     else:
         admin_status = await is_admin(user.id)
-        # Update reply keyboard based on admin status
-        msg = await message.answer("Yuklanmoqda...", reply_markup=get_user_main_menu(admin_status))
-        await msg.delete()
-        
         channel_link = await get_setting('main_channel_url')
-        
         greeting = f"👋 Assalomu alaykum {user.full_name} botimizga xush kelibsiz.\n\n✍🏻 Multfilm kodini yuboring."
         
-        await message.answer(
-            greeting,
-            reply_markup=get_start_menu(channel_link)
-        )
+        if admin_status:
+            # Send greeting with Reply Keyboard to force the bottom keyboard to appear
+            msg = await message.answer(greeting, reply_markup=get_user_main_menu(True))
+            # Immediately edit the message to attach the Inline Keyboard
+            await msg.edit_reply_markup(reply_markup=get_start_menu(channel_link))
+        else:
+            # For normal users, remove the Reply Keyboard invisibly
+            msg = await message.answer("Yuklanmoqda...", reply_markup=get_user_main_menu(False))
+            await msg.delete()
+            # Send greeting with Inline Keyboard
+            await message.answer(greeting, reply_markup=get_start_menu(channel_link))
 
 @router.callback_query(F.data == "start_random")
 async def cb_random(callback: CallbackQuery, bot: Bot):
