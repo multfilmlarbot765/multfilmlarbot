@@ -2,4 +2,5 @@ aiogram
 aiosqlite
 python-dotenv
 motor
+pymongo
 dnspython

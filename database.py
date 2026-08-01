@@ -21,6 +21,8 @@ async def init_db():
     await db.content.create_index("code", unique=True)
     await db.settings.create_index("key", unique=True)
     await db.feedback.create_index("id", unique=True)
+    await db.activity_logs.create_index("user_id")
+    await db.activity_logs.create_index("timestamp")
 
     # Default settings
     default_settings = [
@@ -33,6 +35,16 @@ async def init_db():
     for key, val in default_settings:
         await db.settings.update_one({'key': key}, {'$setOnInsert': {'value': val}}, upsert=True)
 
+async def ping_db():
+    if client:
+        await client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+
+async def close_db():
+    if client:
+        client.close()
+        print("MongoDB connection closed.")
+
 async def get_next_sequence(name: str) -> int:
     ret = await db.counters.find_one_and_update(
         {'_id': name},
@@ -43,20 +55,51 @@ async def get_next_sequence(name: str) -> int:
     return ret['seq']
 
 # --- Users ---
+async def get_or_create_user(user_id: int, username: str, full_name: str, language: str = 'uz'):
+    import datetime
+    now = datetime.datetime.now()
+    user = await db.users.find_one_and_update(
+        {"id": user_id},
+        {"$set": {
+            "username": username,
+            "full_name": full_name,
+            "language": language,
+            "last_active_at": now
+        },
+        "$setOnInsert": {
+            "joined_date": now,
+            "is_active": True
+        }},
+        upsert=True,
+        return_document=True
+    )
+    # If the user was just inserted, 'joined_date' and 'last_active_at' will be very close.
+    # We can determine if new by checking if created right now. But let's just return the user.
+    return user
+
 async def add_user(user_id: int, name: str, username: str):
-    user = await db.users.find_one({"id": user_id})
-    if user:
-        await db.users.update_one({"id": user_id}, {"$set": {"name": name, "username": username}})
-        return False # Not new
-    else:
-        import datetime
-        await db.users.insert_one({
-            "id": user_id, 
-            "name": name, 
-            "username": username, 
-            "joined_date": datetime.datetime.now()
-        })
-        return True # Is new
+    # Legacy wrapper
+    import datetime
+    now = datetime.datetime.now()
+    user = await db.users.find_one_and_update(
+        {"id": user_id},
+        {"$set": {
+            "username": username,
+            "full_name": name,
+            "last_active_at": now
+        },
+        "$setOnInsert": {
+            "joined_date": now,
+            "is_active": True,
+            "language": "uz"
+        }},
+        upsert=True,
+        return_document=False # Returns document BEFORE update (None if inserted)
+    )
+    return user is None
+
+async def update_user_status(user_id: int, is_active: bool):
+    await db.users.update_one({"id": user_id}, {"$set": {"is_active": is_active}})
 
 async def get_user(user_id: int):
     return await db.users.find_one({"id": user_id})
@@ -84,7 +127,8 @@ async def remove_admin(user_id: int):
     await db.admins.delete_one({"id": user_id})
 
 # --- Content ---
-async def add_content(ctype: str, name: str, code: int, year: str, quality: str, genre: str):
+async def add_content(ctype: str, name: str, code: int, year: str, quality: str, genre: str, caption: str = ""):
+    import datetime
     cid = await get_next_sequence('content_id')
     await db.content.insert_one({
         "id": cid,
@@ -94,7 +138,10 @@ async def add_content(ctype: str, name: str, code: int, year: str, quality: str,
         "year": year,
         "quality": quality,
         "genre": genre,
+        "caption": caption,
+        "views_count": 0,
         "download_count": 0,
+        "added_at": datetime.datetime.now(),
         "files": [],
         "keywords": []
     })
@@ -107,7 +154,12 @@ async def add_keyword(content_id: int, keyword: str):
     await db.content.update_one({"id": content_id}, {"$push": {"keywords": keyword.lower().strip()}})
 
 async def get_content_by_code(code: int):
-    return await db.content.find_one({"code": code})
+    # Automatically increment views_count whenever fetched by code
+    return await db.content.find_one_and_update(
+        {"code": code},
+        {"$inc": {"views_count": 1}},
+        return_document=True
+    )
 
 async def get_files_by_content_id(content_id: int):
     content = await db.content.find_one({"id": content_id})
@@ -158,6 +210,16 @@ async def get_total_cartoon_downloads():
     pipeline = [{"$match": {"type": "multfilm"}}, {"$group": {"_id": None, "total": {"$sum": "$download_count"}}}]
     res = await db.content.aggregate(pipeline).to_list(length=1)
     return res[0]["total"] if res else 0
+
+# --- Activity Logs ---
+async def log_activity(user_id: int, action_type: str, detail: str):
+    import datetime
+    await db.activity_logs.insert_one({
+        "user_id": user_id,
+        "action_type": action_type,  # "search" or "download"
+        "detail": detail,
+        "timestamp": datetime.datetime.now()
+    })
 
 # --- Settings ---
 async def get_setting(key: str):

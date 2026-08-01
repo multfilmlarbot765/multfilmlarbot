@@ -4,9 +4,9 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 
-from database import (add_user, get_content_by_code, get_files_by_content_id, increment_download,
+from database import (get_or_create_user, get_content_by_code, get_files_by_content_id, increment_download,
                       search_content_by_keyword, get_top_content, get_random_content, get_setting,
-                      add_feedback)
+                      add_feedback, log_activity)
 from keyboards.reply import get_main_menu, get_cancel_menu, get_user_main_menu
 from keyboards.inline import get_content_inline_keyboard, get_top_content_keyboard, get_search_results_keyboard, get_start_menu, get_rating_keyboard, get_share_keyboard
 from utils.fsm import ContactAdmin, RateBot
@@ -66,14 +66,24 @@ async def send_content(message: Message, bot: Bot, code: int):
         content['name'],
         content['code']
     ))
+    # MongoDB activity log
+    await log_activity(message.from_user.id, "download", str(content['code']))
 
 @router.message(CommandStart())
 async def cmd_start(message: Message, bot: Bot, state: FSMContext):
     await state.clear()
     
     user = message.from_user
-    is_new = await add_user(user.id, user.full_name, user.username)
-    if is_new:
+    db_user = await get_or_create_user(
+        user.id, 
+        user.username or "", 
+        user.full_name,
+        user.language_code or "uz"
+    )
+    
+    # We check if joined_date and last_active_at are the same/close to determine is_new if needed
+    # But for log_new_user, let's just log every start, or only if joined_date is close to last_active_at
+    if (db_user['last_active_at'] - db_user['joined_date']).total_seconds() < 5:
         asyncio.create_task(log_new_user(bot, user.id, user.full_name, user.username))
     
     args = message.text.split()
@@ -208,6 +218,7 @@ async def process_text_search(message: Message, bot: Bot):
     if text.isdigit():
         await send_content(message, bot, int(text))
     else:
+        await log_activity(message.from_user.id, "search", text)
         results = await search_content_by_keyword(text)
         if not results:
             await message.answer("Bunday nomdagi kontent topilmadi.")
