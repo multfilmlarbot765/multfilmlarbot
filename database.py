@@ -104,6 +104,11 @@ async def update_user_status(user_id: int, is_active: bool):
 async def get_user(user_id: int):
     return await db.users.find_one({"id": user_id})
 
+async def get_all_user_ids():
+    cursor = db.users.find({}, {"id": 1})
+    users = await cursor.to_list(length=None)
+    return [u["id"] for u in users]
+
 # --- Admins ---
 async def get_admins():
     cursor = db.admins.find({})
@@ -160,6 +165,9 @@ async def get_content_by_code(code: int):
         {"$inc": {"views_count": 1}},
         return_document=True
     )
+
+async def get_content_by_id(content_id: int):
+    return await db.content.find_one({"id": content_id})
 
 async def get_files_by_content_id(content_id: int):
     content = await db.content.find_one({"id": content_id})
@@ -246,6 +254,9 @@ async def add_feedback(user_id: int, f_type: str, message: str):
 async def get_pending_feedback(f_type: str):
     cursor = db.feedback.find({"type": f_type, "status": "pending"}).sort("id", 1)
     return await cursor.to_list(length=None)
+
+async def get_feedback_by_id(feedback_id: int):
+    return await db.feedback.find_one({"id": feedback_id})
 
 async def mark_feedback_replied(feedback_id: int):
     await db.feedback.update_one({"id": feedback_id}, {"$set": {"status": "replied"}})

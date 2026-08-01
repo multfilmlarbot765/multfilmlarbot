@@ -3,14 +3,14 @@ from aiogram import Router, F, Bot
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-import aiosqlite
 
 from database import (add_content, add_content_file, add_keyword, get_next_code, 
-                      get_setting, set_setting, DB_NAME, get_pending_feedback, mark_feedback_replied,
+                      get_setting, set_setting, get_pending_feedback, mark_feedback_replied,
                       delete_feedback, get_content_paginated, get_content_count, search_content_wildcard,
                       update_content_field, clear_content_files, delete_content_completely,
                       add_admin, remove_admin, get_total_users, get_today_users, 
-                      get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+                      get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins,
+                      get_all_user_ids, get_feedback_by_id, get_content_by_id)
 from keyboards.reply import get_cancel_menu, get_main_menu
 from keyboards.inline import (get_admin_fsm_skip_keyboard, get_admin_fsm_done_keyboard, get_feedback_reply_keyboard, 
                               get_genre_selection_keyboard, get_feedback_manager_keyboard, get_feedback_item_keyboard,
@@ -270,17 +270,14 @@ async def broadcast_send(message: Message, bot: Bot, state: FSMContext):
     
     success = 0
     fail = 0
-    async with aiosqlite.connect(DB_NAME) as db:
-        async with db.execute("SELECT id FROM users") as cursor:
-            rows = await cursor.fetchall()
-            for row in rows:
-                user_id = row[0]
-                try:
-                    await bot.copy_message(user_id, message.chat.id, message.message_id)
-                    success += 1
-                    await asyncio.sleep(0.05) # anti-flood
-                except Exception:
-                    fail += 1
+    user_ids = await get_all_user_ids()
+    for user_id in user_ids:
+        try:
+            await bot.copy_message(user_id, message.chat.id, message.message_id)
+            success += 1
+            await asyncio.sleep(0.05) # anti-flood
+        except Exception:
+            fail += 1
                     
     await message.answer(f"Tarqatildi.\n✅ Muvaffaqiyatli: {success}\n❌ Muqaffaqiyatsiz: {fail}")
 
@@ -365,10 +362,7 @@ async def send_reply_feedback(message: Message, bot: Bot, state: FSMContext):
     data = await state.get_data()
     f_id = data['reply_feedback_id']
     
-    async with aiosqlite.connect(DB_NAME) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute("SELECT * FROM feedback WHERE id = ?", (f_id,)) as cursor:
-            fb = await cursor.fetchone()
+    fb = await get_feedback_by_id(f_id)
             
     if fb:
         try:
@@ -714,10 +708,7 @@ async def cb_edit_media_item(callback: CallbackQuery):
     content_id = int(parts[3])
     page = int(parts[4])
     
-    async with aiosqlite.connect(DB_NAME) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute("SELECT * FROM content WHERE id = ?", (content_id,)) as cursor:
-            content = await cursor.fetchone()
+    content = await get_content_by_id(content_id)
             
     if not content:
         await callback.answer("Media topilmadi!", show_alert=True)
@@ -794,10 +785,7 @@ async def process_field_edit(message: Message, state: FSMContext, field: str, va
     await message.answer("✅ Saqlandi!", reply_markup=None)
     await state.clear()
     
-    async with aiosqlite.connect(DB_NAME) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute("SELECT * FROM content WHERE id = ?", (content_id,)) as cursor:
-            content = await cursor.fetchone()
+    content = await get_content_by_id(content_id)
             
     text = (
         f"📝 <b>Tahrirlash paneli</b>\n\n"
@@ -841,10 +829,7 @@ async def cb_edit_media_del(callback: CallbackQuery):
     content_id = int(parts[3])
     page = int(parts[4])
     
-    async with aiosqlite.connect(DB_NAME) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute("SELECT type FROM content WHERE id = ?", (content_id,)) as cursor:
-            content = await cursor.fetchone()
+    content = await get_content_by_id(content_id)
             
     if not content:
         await callback.answer("Media topilmadi!", show_alert=True)
@@ -860,10 +845,7 @@ async def cb_del_confirm(callback: CallbackQuery):
     content_id = int(parts[2])
     page = int(parts[3])
     
-    async with aiosqlite.connect(DB_NAME) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute("SELECT type FROM content WHERE id = ?", (content_id,)) as cursor:
-            content = await cursor.fetchone()
+    content = await get_content_by_id(content_id)
             
     if content:
         ctype = content['type']

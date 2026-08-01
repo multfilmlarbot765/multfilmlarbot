@@ -1,0 +1,89 @@
+2026-08-01T04:53:57.837927384Z [inf]  Starting Container
+2026-08-01T04:54:00.635609187Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:00.635621477Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:00.635627247Z [err]      from handlers import user, admin
+2026-08-01T04:54:00.635634157Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:00.635643997Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:00.635650267Z [err]      ...<4 lines>...
+2026-08-01T04:54:00.635656547Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:00.635664087Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:03.167079086Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:03.167086086Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:03.167090246Z [err]      from handlers import user, admin
+2026-08-01T04:54:03.167094506Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:03.167098866Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:03.167104726Z [err]      ...<4 lines>...
+2026-08-01T04:54:03.167108286Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:03.167111846Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:06.450685167Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:06.450694937Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:06.450703207Z [err]      from handlers import user, admin
+2026-08-01T04:54:06.450709927Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:06.450714627Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:06.450720897Z [err]      ...<4 lines>...
+2026-08-01T04:54:06.450725057Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:06.450729087Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:09.742530728Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:09.742534928Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:09.742538978Z [err]      from handlers import user, admin
+2026-08-01T04:54:09.742543658Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:09.742547228Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:09.742550738Z [err]      ...<4 lines>...
+2026-08-01T04:54:09.742553718Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:09.742567458Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:13.058651870Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:13.058657690Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:13.058660910Z [err]      from handlers import user, admin
+2026-08-01T04:54:13.058664210Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:13.058668700Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:13.058672380Z [err]      ...<4 lines>...
+2026-08-01T04:54:13.058676050Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:13.058679539Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:16.278640883Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:16.278646483Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:16.278650063Z [err]      from handlers import user, admin
+2026-08-01T04:54:16.278653303Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:16.278656823Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:16.278660513Z [err]      ...<4 lines>...
+2026-08-01T04:54:16.278665393Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:16.278668783Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:19.502772367Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:19.502785197Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:19.502791847Z [err]      from handlers import user, admin
+2026-08-01T04:54:19.502797077Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:19.502802737Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:19.502808187Z [err]      ...<4 lines>...
+2026-08-01T04:54:19.502812877Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:19.502818347Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:22.749876963Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:22.749879923Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:22.749883313Z [err]      from handlers import user, admin
+2026-08-01T04:54:22.749885743Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:22.749888433Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:22.749891383Z [err]      ...<4 lines>...
+2026-08-01T04:54:22.749894813Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:22.749897643Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:26.149019206Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:26.149026506Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:26.149072646Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:26.149076276Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:26.149080635Z [err]      from handlers import user, admin
+2026-08-01T04:54:26.149085175Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:26.149088505Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:26.149093255Z [err]      ...<4 lines>...
+2026-08-01T04:54:29.733354491Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:29.733360471Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:29.733363911Z [err]      from handlers import user, admin
+2026-08-01T04:54:29.733367161Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:29.733371111Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:29.733374481Z [err]      ...<4 lines>...
+2026-08-01T04:54:29.733378581Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:29.733382001Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
+2026-08-01T04:54:33.459103043Z [err]  Traceback (most recent call last):
+2026-08-01T04:54:33.459105573Z [err]    File "/app/main.py", line 7, in <module>
+2026-08-01T04:54:33.459108183Z [err]      from handlers import user, admin
+2026-08-01T04:54:33.459110833Z [err]    File "/app/handlers/admin.py", line 8, in <module>
+2026-08-01T04:54:33.459113033Z [err]      from database import (add_content, add_content_file, add_keyword, get_next_code,
+2026-08-01T04:54:33.459115253Z [err]      ...<4 lines>...
+2026-08-01T04:54:33.459117813Z [err]                            get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins)
+2026-08-01T04:54:33.459120733Z [err]  ImportError: cannot import name 'DB_NAME' from 'database' (/app/database.py)
