@@ -18,7 +18,7 @@ router = Router()
 async def send_content(message: Message, bot: Bot, code: int):
     content = await get_content_by_code(code)
     if not content:
-        await message.answer("Bunday kodli multfilm yoki kino topilmadi. 😔")
+        await message.answer("Bunday kodli multfilm yoki kino topilmadi😔")
         return
         
     files = await get_files_by_content_id(content['id'])
