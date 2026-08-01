@@ -36,6 +36,7 @@ def get_admin_menu():
             [KeyboardButton(text="📋 Baholar va Xabarlar"), KeyboardButton(text="⚙️ Obuna sozlash")],
             [KeyboardButton(text="📝 Footer sozlash"), KeyboardButton(text="👑 Adminlar boshqaruvi")],
             [KeyboardButton(text="🗄 Baza Logi"), KeyboardButton(text="🔗 Kanal havolasini sozlash")],
+            [KeyboardButton(text="📊 Statistika")],
             [KeyboardButton(text="❌ Yopish")]
         ],
         resize_keyboard=True

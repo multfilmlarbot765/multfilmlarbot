@@ -10,7 +10,7 @@ from database import (add_content, add_content_file, add_keyword, get_next_code,
                       update_content_field, clear_content_files, delete_content_completely,
                       add_admin, remove_admin, get_total_users, get_today_users, 
                       get_total_movie_downloads, get_total_cartoon_downloads, get_all_admins,
-                      get_all_user_ids, get_feedback_by_id, get_content_by_id)
+                      get_all_user_ids, get_feedback_by_id, get_content_by_id, get_advanced_statistics)
 from keyboards.reply import get_cancel_menu, get_main_menu
 from keyboards.inline import (get_admin_fsm_skip_keyboard, get_admin_fsm_done_keyboard, get_feedback_reply_keyboard, 
                               get_genre_selection_keyboard, get_feedback_manager_keyboard, get_feedback_item_keyboard,
@@ -148,7 +148,42 @@ async def cmd_admin(message: Message):
         from keyboards.reply import get_admin_menu
         await message.answer(text, reply_markup=get_admin_menu(), parse_mode="HTML")
 
+@router.message(F.text == "📊 Statistika")
+async def cmd_advanced_statistics(message: Message):
+    if not await is_admin(message.from_user.id): return
+    
+    msg = await message.answer("Sanoq davom etmoqda... ⏳")
+    stats = await get_advanced_statistics()
+    
+    peak_str = f"{stats['peak_hour']}:00 - {stats['peak_hour']+1}:00" if stats['peak_hour'] is not None else "Hozircha aniqlanmadi"
+    
+    top_str = ""
+    if stats['top_3']:
+        for i, item in enumerate(stats['top_3'], 1):
+            top_str += f"{i}. {item['name']} — {item['download_count']} yuklanma\\n"
+    else:
+        top_str = "Hali ma'lumot yo'q\\n"
+        
+    text = f"""📊 <b>BOTNING MUKAMMAL STATISTIKASI</b>
 
+👥 <b>FOYDALANUVCHILAR:</b>
+├ 🔹 Jami obunachilar: {stats['total_users']} ta
+├ 🔹 Bugun qo'shilganlar: +{stats['new_today']} ta
+├ 🔹 24 soatlik aktivlar: {stats['active_24h']} ta
+└ 🔹 7 kunlik aktivlar: {stats['active_7d']} ta
+
+⏰ <b>FAOLLIK TAHLILI:</b>
+└ ⚡️ Eng aktiv vaqt: {peak_str} (UTC+5)
+
+🎬 <b>KONTENT VA YUKLAMALAR:</b>
+├ 🔹 Jami kinolar/multfilmlar: {stats['total_cartoons']} ta
+├ 🔹 Jami ko'rishlar: {stats['total_views']} marta
+└ 🔹 Jami yuklab olishlar: {stats['total_downloads']} marta
+
+🏆 <b>TOP-3 ENG MASHHUR KONTENT:</b>
+{top_str}"""
+
+    await msg.edit_text(text, parse_mode="HTML")
 
 # --- Upload FSM ---
 @router.message(F.text.in_(["➕ Multfilm yuklash", "➕ Kino yuklash"]))

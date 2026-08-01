@@ -264,6 +264,67 @@ async def mark_feedback_replied(feedback_id: int):
 async def delete_feedback(feedback_id: int):
     await db.feedback.delete_one({"id": feedback_id})
 
+# --- Statistics ---
+async def get_advanced_statistics():
+    import datetime
+    now = datetime.datetime.now()
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    yesterday_start = now - datetime.timedelta(days=1)
+    last_week_start = now - datetime.timedelta(days=7)
+
+    # User Metrics
+    total_users = await db.users.count_documents({})
+    new_today = await db.users.count_documents({"joined_date": {"$gte": today_start}})
+    active_24h = await db.users.count_documents({"last_active_at": {"$gte": yesterday_start}})
+    active_7d = await db.users.count_documents({"last_active_at": {"$gte": last_week_start}})
+
+    # Content Metrics
+    total_cartoons = await db.content.count_documents({})
+    
+    # Aggregation for total views and downloads
+    content_agg = await db.content.aggregate([
+        {"$group": {
+            "_id": None,
+            "total_views": {"$sum": "$views_count"},
+            "total_downloads": {"$sum": "$download_count"}
+        }}
+    ]).to_list(length=1)
+    
+    total_views = content_agg[0]["total_views"] if content_agg else 0
+    total_downloads = content_agg[0]["total_downloads"] if content_agg else 0
+
+    # Peak Activity Analysis
+    # Add +5 hours to UTC timestamp to match Tashkent time, then extract the hour
+    activity_agg = await db.activity_logs.aggregate([
+        {"$project": {
+            "tashkent_time": {"$add": ["$timestamp", 5 * 60 * 60 * 1000]} # Add 5 hours in milliseconds
+        }},
+        {"$group": {
+            "_id": {"$hour": "$tashkent_time"},
+            "count": {"$sum": 1}
+        }},
+        {"$sort": {"count": -1}},
+        {"$limit": 1}
+    ]).to_list(length=1)
+    
+    peak_hour = activity_agg[0]["_id"] if activity_agg else None
+
+    # Top Performance
+    top_3_cursor = db.content.find().sort("download_count", -1).limit(3)
+    top_3_content = await top_3_cursor.to_list(length=None)
+    
+    return {
+        "total_users": total_users,
+        "new_today": new_today,
+        "active_24h": active_24h,
+        "active_7d": active_7d,
+        "total_cartoons": total_cartoons,
+        "total_views": total_views,
+        "total_downloads": total_downloads,
+        "peak_hour": peak_hour,
+        "top_3": top_3_content
+    }
+
 # --- Media Editing & Pagination ---
 async def get_content_count(ctype: str):
     return await db.content.count_documents({"type": ctype})
