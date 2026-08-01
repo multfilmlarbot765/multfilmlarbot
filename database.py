@@ -1,7 +1,8 @@
+import os
 import aiosqlite
 import asyncio
 
-DB_NAME = 'bot_database.sqlite'
+DB_NAME = os.getenv('DB_PATH', 'bot_database.sqlite')
 
 async def init_db():
     async with aiosqlite.connect(DB_NAME) as db:
