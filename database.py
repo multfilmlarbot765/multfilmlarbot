@@ -277,7 +277,7 @@ async def search_content_wildcard(query: str, ctype: str):
             return await cursor.fetchall()
 
 async def update_content_field(content_id: int, field: str, value):
-    valid_fields = ['name', 'year', 'quality', 'genre']
+    valid_fields = ['name', 'year', 'quality', 'genre', 'code']
     if field not in valid_fields:
         raise ValueError("Invalid field")
     async with aiosqlite.connect(DB_NAME) as db:

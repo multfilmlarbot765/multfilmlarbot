@@ -761,6 +761,9 @@ async def cb_edit_media_field(callback: CallbackQuery, state: FSMContext):
     elif field == "genre":
         prompt = "Yangi janrni kiriting:"
         await state.set_state(MediaEdit.edit_genre)
+    elif field == "code":
+        prompt = "Yangi kodni kiriting (faqat raqamlar):"
+        await state.set_state(MediaEdit.edit_code)
         
     await callback.message.answer(prompt, reply_markup=get_cancel_menu())
     
@@ -773,6 +776,17 @@ async def process_field_edit(message: Message, state: FSMContext, field: str, va
         file_id = message.video.file_id if message.video else message.document.file_id
         await clear_content_files(content_id)
         await add_content_file(content_id, file_id)
+    elif field == "code":
+        val = value if value else message.text
+        if not val.isdigit():
+            await message.answer("⚠️ Kod faqat raqamlardan iborat bo'lishi kerak!")
+            return
+        val = int(val)
+        try:
+            await update_content_field(content_id, field, val)
+        except Exception as e:
+            await message.answer("⚠️ Bu kod band bo'lishi mumkin. Boshqa kod kiriting:")
+            return
     else:
         val = value if value else message.text
         await update_content_field(content_id, field, val)
@@ -816,6 +830,10 @@ async def process_edit_quality(message: Message, state: FSMContext):
 @router.message(MediaEdit.edit_genre, F.text != "❌ Bekor qilish")
 async def process_edit_genre(message: Message, state: FSMContext):
     await process_field_edit(message, state, "genre")
+
+@router.message(MediaEdit.edit_code, F.text != "❌ Bekor qilish")
+async def process_edit_code(message: Message, state: FSMContext):
+    await process_field_edit(message, state, "code")
 
 @router.callback_query(F.data.startswith("edit_media_del_"))
 async def cb_edit_media_del(callback: CallbackQuery):

@@ -196,6 +196,9 @@ def get_media_edit_dashboard_keyboard(content_id: int, ctype: str, return_page: 
             ],
             [
                 InlineKeyboardButton(text="✨ Sifatni tahrirlash", callback_data=f"edit_media_f_quality_{content_id}_{return_page}"),
+                InlineKeyboardButton(text="🆔 Kodni tahrirlash", callback_data=f"edit_media_f_code_{content_id}_{return_page}")
+            ],
+            [
                 InlineKeyboardButton(text="🗑 Mediani to'liq o'chirish", callback_data=f"edit_media_del_{content_id}_{return_page}")
             ],
             [
